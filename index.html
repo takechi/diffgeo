@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分幾何学の入門の準備のために</title>
+    <link rel="stylesheet" href="revealjs/css/reveal.css">
+    <link rel="stylesheet" href="revealjs/css/theme/solarized.css" id="theme">
+    <script>
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match(/print-pdf/gi) ? 'revealjs/css/print/pdf.css' :
+                                                                'revealjs/css/print/paper.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+    <script src="canvasjs/canvasjs.min.js"></script>
+    <style type="text/css">
+      .reveal {
+        font-family: Meiryo, メイリオ, sans-serif;
+        font-size: 25px;
+        font-weight: normal;
+        color: #657b83; }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4,
+      .reveal h5,
+      .reveal h6 {
+        margin: 0 0 0 0;
+        font-family: Meiryo, メイリオ, sans-serif;
+        font-weight: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-transform: none;
+        text-shadow: none;
+        word-wrap: break-word; }
+      .reveal h1 { font-size: 2em; }
+      .reveal h2 { font-size: 1em; }
+      .reveal p {
+        margin-top: 10px;
+        text-align: left;
+        line-height: 180%; }
+      .reveal li { margin: 15px 15px 0 0; }
+      .reveal .box-definition {
+        border: 2px solid #8d1e47;
+        border-radius: 4px;
+        margin-top: 0.5em;
+        margin-bottom: 0em;
+        padding: 0.5em;
+        position: relative;
+        text-align: left;
+      }
+      .reveal .box-definition::before {
+        background-color: #fdf6e3;
+        color: #da4033;
+        content: "定義";
+        font-weight: bold;
+        left: 0.5em;
+        padding: 0.5em;
+        position: absolute;
+        top: -1em;
+      }
+    </style>
+    <style type="text/css">
+      .tableCenter tbody tr td {text-align: center; vertical-align: middle;}
+      .tableCenter thead tr th {text-align: center;}
+      span.irregular {text-decoration:underline;}
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>微分幾何学の入門の準備のために</h1>
+          <address>武智</address>
+        </section>
+        <section>
+          <h2>はじめに</h2>
+          <ul>
+            <li>微分幾何学の入門書を読むために必要と思われる用語・言葉遣いを紹介する。</li>
+            <li>学部レベル（非数学専攻）の微積・線形代数の諸概念は既知とする。</li>
+            <li style="margin-top:60px;">微分幾何より、同値関係の素晴らしさについて紹介するプレゼンに
+              なっているかもしれない。</li>
+          </ul>
+        </section>
+        <section>
+          <h2>流れ</h2>
+          <ol>
+            <li>多様体とは
+              <ol>
+                <li>Euclid 空間 $\mathbb{R}$ とは</li>
+                <li>位相空間とは</li>
+                <li>同相とは</li>
+              </ol>
+            </li>
+            <li>接ベクトルとは</li>
+            <li>計量テンソルとは</li>
+          </ol>
+        </section>
+        <section>
+          <h2>多様体の定義</h2>
+          <div class="box-definition">
+            <p>
+            $n$ 次元多様体とは、Euclid 空間 $\mathbb{R}^n$ と局所的に同相な位相空間のこと。
+            </p>
+          </div>
+          <div class="fragment">
+          <p> $\rightsquigarrow$ 未定義語</p>
+          <ul>
+            <li> Euclid 空間 $\mathbb{R}^n$</li>
+            <li> 局所的に同相 </li>
+            <li> 位相空間 </li>
+          </ul>
+          </div>
+        </section>
+        <section>
+          <h2>Euclid 空間 $\mathbb{R}$</h2>
+          <p>Euclid 空間 $\mathbb{R}$はゼロから作ることができる。</p>
+          \begin{align}
+          0 \rightarrow \mathbb{N} \rightarrow \mathbb{Z} \rightarrow \mathbb{Q} \rightarrow \mathbb{R}
+          \end{align}
+          <p>$\mathbb{R}$ の構成は、微分幾何の本筋というわけでは全くないが、
+            後で出てくる位相空間の理解にも繋がるので、紹介する。</p>
+        </section>
+        <section>
+          <h2>自然数 $\mathbb{N}$</h2>
+          <p>$0$ と後者関数 $S$ で再帰的に定義。</p>
+          \begin{align}
+          0 &:= 0 \hspace{1em} (0 \text{の存在は認める})\\
+          1 &:= S(0) \\
+          2 &:= S(1) = S(S(0)) \\
+          3 &:= S(2) = S(S(S(0))) \\
+          &\hphantom{:::}\vdots \\
+          k+1 &:= S(k) = \underbrace{S(S(\cdots(S}_{k+1}(0))\cdots))
+          \end{align}
+          <p>（ここでは $0$ を自然数とする立場を取る）</p>
+        </section>
+        <section>
+          <h2>後者関数 $S$ の満たすべき性質</h2>
+          <p>後者関数 $S$ は、任意の $n, m$ について、次の性質を持つ（公理）。</p>
+          <ul>
+            <li>$0$ を後者とする数はない
+              \begin{align}
+              S(n) \neq 0
+              \end{align}
+            </li>
+            <li>後者が同じなら同じ
+              \begin{align}
+              S(n) = S(m) \rightarrow n = m
+              \end{align}
+            </li>
+            <li>$0$ 以外の自然数には、前者が存在する
+              \begin{align}
+              n \neq 0 \rightarrow \exists m (n = S(m))
+              \end{align}
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>加法 $+$</h2>
+          <p>加法 $+$ を $0$ と $S$ で再帰的に定義する。</p>
+          \begin{align}
+          k + 0 &= k \\
+          k + S(l) &= S(k + l)
+          \end{align}
+          <p>例えば</p>
+          \begin{align}
+          4 + 3 &= 4 + S(2) = S(4 + 2) \\
+          &= S(4 + S(1)) = S(S(4 + 1)) \\
+          &= S(S(4 + S(0))) = S(S(S(4 + 0))) \\
+          &= S(S(S(4))) = 7
+          \end{align}
+          <p>記号 $+$ の満たすべき公理とも言える。</p>
+        </section>
+        <section>
+          <h2>乗法 $\cdot$</h2>
+          <p>さらに、乗法 $\cdot$ を $0$, $S$, $+$ で再帰的に定義する。</p>
+          \begin{align}
+          k \cdot 0 &= 0 \\
+          k \cdot S(l) &= k \cdot l + k
+          \end{align}
+          <p>例えば</p>
+          \begin{align}
+          3 \cdot 2 &= 3 \cdot S(1) = 3 \cdot 1 + 3 \\
+          &= 3 \cdot S(0) + 3 = 3 \cdot 0 + 3 + 3 \\
+          &= 0 + 3 + 3 = 6
+          \end{align}
+          <p>これも、記号 $\cdot$ の満たすべき公理と考えることができる。</p>
+        </section>
+        <section>
+          <h2>数学的帰納法</h2>
+          <p>ここまで、<strong>再帰的に</strong> 自然数を構成し、加法、乗法を定義した。</p>
+          <p>しかし、数学的帰納法</p>
+          <div style="border: solid 2px black; text-align: left; padding-left: 15px;">
+            <p>$k$ を含む命題 $P(k)$ について、</p>
+            <ul>
+              <li> $P(0)$ が成立</li>
+              <li> $P(l)$ が成立するとき $P(S(l))$ が成立</li>
+            </ul><br/>
+            <p>が成立するなら、任意の $k$ について $P(k)$ が成立</p>
+            \begin{align}
+            P(0) \land (\forall l\ (P(l) \rightarrow P(S(l)))) \rightarrow \forall k\ P(k)
+            \end{align}
+          </div>
+          <p>には言及しなかった。</p>
+          <p>数学的帰納法を認めない算術体系は、Robinson 算術と呼ばれる。</p>
+        </section>
+        <section>
+          <h2>Robinson 算術</h2>
+          <p>数学的帰納法を認めない Robinson 算術では、色々困ったことが起きる。</p>
+          <p>例えば、$S(2) \neq 2$ という命題は Robinson 算術でも証明できる。</p>
+          <div style="border: solid; padding: 10px;">
+            <p>$S(2) = 2$ と仮定すると</p>
+            \begin{align}
+            S(2) = 2 &\rightarrow S(S(1)) = S(1) \\
+            &\rightarrow S(S(S(0))) = S(S(0)) \\
+            &\rightarrow S(S(0)) = S(0) \\
+            &\rightarrow S(0) = 0
+            \end{align}
+            <p>これは公理 $\forall n (S(n) \neq 0)$ に矛盾。</p>
+          </div>
+          <p>しかし、$\forall x (S(x) \neq x)$ は証明できない。</p>
+        </section>
+        <section>
+          <section>
+            <h2>無限大のようなもの</h2>
+            <p>$\omega = S(\omega)$ となる「数」$\omega$ を考える。
+              $\omega$ は無限大 $\infty$ のようなもの。</p>
+            <p>$k \in \mathbb{N}$ と $\omega$ の加法を</p>
+            \begin{align}
+            \omega + k &= \omega \\
+            k + \omega &= \omega \\
+            \omega + \omega &= \omega
+            \end{align}
+            <p>と解釈すると、これは $x,y \in \mathbb{N} \cup \{\omega\}$ で</p>
+            \begin{align}
+            x + 0 &= x \\
+            x + S(y) &= S(x + y)
+            \end{align}
+            <p>を満たす。
+              他の公理についても、矛盾しないことが確かめられる。</p>
+            <p>つまり、Robinson 算術は $\omega$ の存在を否定できない。</p>
+            <p>そのため、命題 $\forall x (S(x) \neq x)$ は Robinson 算術では証明できない。</p>
+          </section>
+          <section>
+            <h2>$\omega$ の加法の無矛盾性</h2>
+            <p>$x + S(y) = S(x + y)$ を確認する。</p>
+            <p>$x, y \in \mathbb{N}$ のときは省略。</p>
+            <p>$x = y = \omega$ のとき</p>
+            \begin{align}
+            \omega + S(\omega) &= \omega + \omega = \omega, \\
+            S(\omega + \omega) &= S(\omega) = \omega
+            \end{align}
+            <p>$x = k \in \mathbb{N}, y = \omega$ のとき</p>
+            \begin{align}
+            k + S(\omega) &= k + \omega = \omega, \\
+            S(k + \omega) &= S(\omega) = \omega
+            \end{align}
+            <p>$x = \omega, y = k \in \mathbb{N}$ のとき</p>
+            \begin{align}
+            \omega + S(k) &= \omega, \\
+            S(\omega + k) &= S(\omega) = \omega
+            \end{align}
+            <p>したがって、$x + S(y) = S(x + y)$.</p>
+          </section>
+        </section>
+        <section>
+          <h2>Peano 算術</h2>
+          <p>数学的帰納法を認める体系が、Peano 算術。</p>
+          <p>数学的帰納法によって、自然数 $\mathbb{N}$ 以外の $\omega$ のような数が
+            排除される。</p>
+          <p>通常の数学では Peano 算術が採用されている。</p>
+          <p>（よく「無限大 $\infty$ は数ではない」と言われるが、
+            この主張は数学的帰納法によって裏打ちされている）</p>
+        </section>
+        <section>
+          <h2>$\mathbb{N}$ のモデル</h2>
+          <p>記号的には、$0$ と $S$ で自然数を書き下せた。</p>
+          <p>では、$0$ と $S$ は「具体的には」どんなものなのか？</p>
+          <p>$0$ を空集合 $\emptyset$、$S$ を集合演算とするモデルが有名。</p>
+        </section>
+        <section>
+          <h2>集合論のモデル（Zermelo の定義）</h2>
+          <p>包含で $S$ を定義する。</p>
+          \begin{align}
+          0 &:= \emptyset \\
+          S(k) &:= \{k\}
+          \end{align}
+          <p>つまり</p>
+          \begin{align}
+          0 &:= \emptyset \\
+          1 &:= \{0\} = \{\emptyset\} \\
+          2 &:= \{1\} = \{\{\emptyset\}\} \\
+          3 &:= \{2\} = \{\{\{\emptyset\}\}\} \\
+          &\hphantom{:::}\vdots \\
+          k+1 &:= \{k\} = \underbrace{\{\{\cdots\{}_{k+1}\emptyset\}\cdots\}\}
+          \end{align}
+          <p>おそらく最もシンプルな定義。</p>
+        </section>
+        <section>
+          <h2>集合論のモデル（von Neumann の定義）</h2>
+          <p>合併で $S$ を定義する。</p>
+          \begin{align}
+          0 &:= \emptyset \\
+          S(k) &:= k \cup \{k\}
+          \end{align}
+          <p>つまり</p>
+          \begin{align}
+          0 &:= \emptyset \\
+          1 &:= \{0\} = \{\emptyset\} \\
+          2 &:= \{0, 1\} = \{\emptyset, \{\emptyset\}\} \\
+          3 &:= \{0, 1, 2\} = \{\emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\}\} \\
+          &\hphantom{:::}\vdots \\
+          k+1 &:= \{0, 1,\ldots k\}
+          \end{align}
+          <p>やや複雑だが、集合の要素数が自然数に対応する、
+          包含関係で順序が自然に導入できる（$k \subset l \iff k \lt l$）、などの
+            利点がある。</p>
+        </section>
+        <section>
+          <h2>$\lambda$ 式のモデル（Church 数）</h2>
+          <p>自然数を集合ではなく、$\lambda$ 式でモデル化することもできる。</p>
+          \begin{align}
+          0 &:= (f, x) \mapsto x \\
+          S(k) &:= (f, x) \mapsto f(k(f, x))
+          \end{align}
+          <p>$k$ は「関数 $f$ と値 $x$ を受け取り、$x$ に $f$ を $k$ 回かけたものを返す関数」</p>
+          \begin{align}
+          0 &:= (f, x) \mapsto x \\
+          1 &:= (f, x) \mapsto f( 0(f,x) ) = (f, x) \mapsto f(x) \\
+          2 &:= (f, x) \mapsto f( 1(f,x) ) = (f, x) \mapsto f(f(x)) \\
+          3 &:= (f, x) \mapsto f( 2(f,x) ) = (f, x) \mapsto f(f(f(x))) \\
+          &\hphantom{:::}\vdots \\
+          k+1 &:= (f, x) \mapsto \underbrace{f(f(\cdots(f}_{k+1}(x))\cdots))
+          \end{align}
+          <p>$\lambda$ 計算のモデルの一つ。</p>
+        </section>
+        <section>
+          <h2>$\mathbb{N} \rightarrow \mathbb{Z}$</h2>
+          <p>自然数 $\mathbb{N}$ から整数 $\mathbb{Z}$ を構成する。</p>
+          <p>$\mathbb{N}$ と $\mathbb{Z}$ の違いは、<strong>負の数</strong>があるかどうか。</p>
+          <p>つまり、$\mathbb{N}$ は増加方向には無限に伸びるが、減少方向には下限 $0$ を持つ。</p>
+          <div id="canvLine" style="height:50px; width:600px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p>両側に無限に伸びる（下限を持たない）空間を $\mathbb{N}$ から作りたい。</p>
+        </section>
+        <section>
+          <h2>直積（$2$ 次元）</h2>
+          <p>とりあえず $\mathbb{N}$ を $2$ 個用意し、直積空間を考える。</p>
+          \begin{align}
+          \mathbb{N}^2 = \mathbb{N} \times \mathbb{N} = \left\{(k, l) \mid k, l \in \mathbb{N} \right\}
+          \end{align}
+          <div id="canvPlane" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p>
+            $\rightsquigarrow$ 横軸 $(k, 0)$ と縦軸 $(0, l)$ を組み合わせれば、
+            両側に端のない空間ができそう。
+          </p>
+        </section>
+        <section>
+          <h2> $(k, 0)$ と $(0, l)$ の演算</h2>
+          <p>$(k, 0)$ を正の整数 $+k$、$(0, l)$ を負の整数 $-l$ と考えてみる。</p>
+          <p>これらの間に加算と乗算を適切に定義できれば、$\mathbb{Z}$ と見なすことができる。</p>
+
+          <p>正同士 $(k, 0), (k', 0)$ の加算は</p>
+          \begin{align}
+          (k, 0) + (k', 0) \ := (k + k', 0)
+          \end{align}
+          <p>でよさそうだが、正と負の加算はどうすればいいだろうか？</p>
+          \begin{align}
+          (k, 0) + (0, l) \ &\stackrel{?}{:=} (k - l, 0) \\
+          &\stackrel{?}{:=} (0, l - k)
+          \end{align}
+          <p>としたいところだが、自然数の差は定義できていないので、
+            これは使えない。</p>
+        </section>
+        <section>
+          <h2> $(k, 0)$ と $(0, l)$ の演算</h2>
+          <p>次に思い付くのは</p>
+          \begin{align}
+          (k, 0) + (0, l) := (k, l)
+          \end{align}
+          <p>という操作だが、<strong>今は</strong> $(k, 0), (0, l)$ という形の元だけを整数だと考えているので、
+            右辺の $(k, l)$ をどう解釈すればよいのか分からない。</p>
+          <div id="canvPlaneKL" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+        </section>
+        <section>
+          <h2> $(k, l)$ と軸上の点の関係</h2>
+          <p>そこで、$(k, l)$ と 軸上の点 $(a, 0)$, $(0, b)$ の対応を考えてみる。</p>
+          <div id="canvPlaneMap" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p>例えば $(3, 4)$ は $(0, 1)$ になってほしい。</p>
+        </section>
+        <section>
+          <h2>傾き $1$ の直線</h2>
+          <p>これを一般化すると、$(k, k + 1)$ となる点は全て $(0, 1)$ になってほしい。</p>
+          <div id="canvPL" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p>
+            $\rightsquigarrow$ $(0, 1)$ という<span style="text-decoration:underline;">点</span>ではなく、
+            $(k, k + 1)$ となる<span style="text-decoration:underline;">点全体</span>を
+            負の数 $-1$ と見なせばいいのではないか？
+          </p>
+        </section>
+        <section>
+          <h2>集合の分割</h2>
+          <p>つまり、$\mathbb{N}^2$ の集合を、傾き$1$の直線上の点の集合に分割する。</p>
+          <div id="canvBreak" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p><strong>「同値関係」</strong>という概念を使うと、このような集合の分割を見通しよく記述できる。</p>
+        </section>
+        <section>
+          <h2>関係 $\newcommand\simplus{\stackrel{\scriptsize +}{\sim}}\simplus$</h2>
+          <p>$\mathbb{N}^2$ 上の点 $(a, b),\ (c, d)$ が同じ傾き $1$ の直線に載っているとき、</p>
+          \begin{align}
+          a + d = b + c
+          \end{align}
+          <p>が成立する。</p>
+          <p>この等式が成立するという関係を、記号 $\simplus$ で表す。</p>
+          \begin{align}
+          (a, b) \simplus (c, d) \iff a + d = b + c
+          \end{align}
+          <hr>
+          <p><span class="irregular">循環論法で反則だが、</span>引き算を使えば </p>
+          \begin{align}
+          (a, b) \simplus (c, d) \iff a - b = c - d
+          \end{align}
+          <p>であり、つまり $(a, b)$ は整数 $a - b$ に対応する。</p>
+        </section>
+        <section>
+          <h2>同値関係</h2>
+          <p>集合 $A$ の $2$ 項関係 $\sim$ について、任意の元 $x, y, z \in A$ で</p>
+          <ul>
+            <li>反射律 : $x \sim x$</li>
+            <li>対称律 : $x \sim y \iff y \sim x$</li>
+            <li>推移律 : $x \sim y \land y \sim z \iff x \sim z$</li>
+          </ul>
+          <p>が成立するとき、$\sim$ は<strong>同値関係</strong>であると言う。</p>
+          <p>関係 $\simplus$ は同値関係になる。</p>
+        </section>
+        <section>
+          <h2>同値類</h2>
+          <div id="canvBreak2" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p>ある $k, l \in \mathbb{N}$について $(a, b) \simplus (k, l)$ となる $(a, b)$ 全体の
+            集合を $[k, l]$ と書く。</p>
+          \begin{align}
+          [k, l] := \{(a,b) \mid (a, b) \simplus (k, l)\}
+          \end{align}
+          <p>$[k, l]$ は関係 $\simplus$ の $(k, l)$ を代表元とする<strong>同値類</strong>と呼ばれる。</p>
+        </section>
+        <section>
+          <h2>同値類の性質</h2>
+          <p>集合 $A$ に同値関係 $\sim$ が定義されていれば、任意の元 $x \in A$ は
+            必ずある $1$ つの同値類に所属する。</p>
+          <canvas id="canvEli"></canvas>
+          <p>どの同値類にも属していないような元は存在しないし、
+            $2$ つ以上の同値類に同時に属するような元も存在しない。</p>
+          <p>つまり、同値関係 $\sim$ を定義することは、集合 $A$ の分割を定めることと等価。</p>
+        </section>
+        <section>
+          <h2>商集合</h2>
+          <p>同値類 $[k, l]$ を要素とする集合を</p>
+          \begin{align}
+          \mathbb{N}^2 / \simplus := \{[k, l] \mid k,l \in \mathbb{N}\}
+          \end{align}
+          <p>と書き、$\mathbb{N}^2$ の $\simplus$ による<strong>商集合</strong>と呼ぶ。</p>
+          <div style="height:300px;">
+            <div id="canvBreakQ" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto; float: left;"></div>
+            <div style="width:150px;" ></div>
+            <div id="canvZ" style="width:600px; height:50px; padding-right:auto; margin-right:auto; margin-left:40px; margin-top:125px; float:left"></div>
+          </div><br/>
+          <p>
+            商集合 $\mathbb{N}^2 / \simplus$ は、
+            両方向に無限に伸びる空間であることが分かる。
+          </p>
+        </section>
+        <section>
+          <section>
+            <h2>同値類の間の演算</h2>
+            <p>同値類 $[a, b],\ [c, d]$ について</p>
+            \begin{align}
+            [a, b] + [c, d] &:= [a + c, b + d] \\
+            [a, b] \cdot [c, d] &:= [ac + bd, ad + bc]
+            \end{align}
+            <p>で加算と乗算を定義する。</p>
+            <hr>
+            <p style="margin-top:20px;"><span class="irregular">循環論法なので反則だが、</span> $[a, b]$ が $a - b$ に対応することを
+              知っていれば、上式は</p>
+            \begin{align}
+            (a - b) + (c - d) &= (a + c) - (b + d) \\
+            (a - b) \cdot (c - d) &= (ac + bd) - (ad + bc)
+            \end{align}
+            <p>であり、well-defined であることが納得できる。</p>
+          </section>
+          <section>
+            <h2>well-defined</h2>
+            <p>この文脈で、「演算 $+$ が well-defined である」とは、代表元の選び方に依らないという意味で、</p>
+            \begin{align}
+            (a, b) \simplus (a', b')\ \land\ (c, d) \simplus (c', d') \Rightarrow (a + c, b + d) \simplus (a' + c', b' + d')
+            \end{align}
+            <p>が成立すること。</p>
+          </section>
+        </section>
+        <section>
+          <h2>$\mathbb{N}^2/\simplus$ 上の加算</h2>
+          <div id="canvZPlus" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <br/>
+          \begin{align}
+          [0, 3] + [6, 0] = [6, 3] &= [3, 0] \\
+          (\iff -3 + 6 &= 3)
+          \end{align}
+        </section>
+        <section>
+          <h2>$\mathbb{N}^2/\simplus$ 上の乗算</h2>
+          <div id="canvZProd" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <br/>
+          \begin{align}
+          [1, 3] \cdot [4, 1] &= [1,3] \cdot [4, 0] + [1, 3] \cdot [0, 1] \\
+          &= [4, 12] + [3, 1] = [7, 13] = [0, 6] \\
+          (\iff -2 \cdot 3 &= -6)
+          \end{align}
+          <p>（$[1,3] \cdot [4,1]$ は、$[1,3]$ を平行に $4$ 倍したものと、$[1,3]$ の $y = x$ 鏡像 $[3, 1]$ を
+            平行に $1$ 倍したものの和）</p>
+        </section>
+        <section>
+          <h2>$\mathbb{N} \rightarrow \mathbb{N}^2/\simplus \rightarrow \mathbb{Z}$</h2>
+          <p>このようにして、$\mathbb{N}^2/\simplus$ は整数 $\mathbb{Z}$ と見なせる。</p>
+          \begin{align}
+          \mathbb{N}^2/\simplus \ \cong \mathbb{Z}
+          \end{align}
+          <p>同型 $\cong$ で結んだが、定義 $:=$ とすることもできる。</p>
+        </section>
+        <section>
+          <h2>$\mathbb{Z} \rightarrow \mathbb{Q}$</h2>
+          <p>続いて、整数 $\mathbb{Z}$ から有理数 $\mathbb{Q}$ を構成する。</p>
+          <p>$\mathbb{Q}$ は $\mathbb{Z}$ に乗法の逆元（つまり逆数）を追加したもの</p>
+          <p>$\mathbb{Z}$ が $\mathbb{N}$ に加法の逆元（つまり負数）を追加したものだったことを考えると、
+            $\mathbb{N} \rightarrow \mathbb{Z}$ のときとほとんど同じ論法で、$\mathbb{Z} \rightarrow \mathbb{Q}$ を実行できる。</p>
+          <p>すなわち、</p>
+          <p>$\mathbb{N} \rightarrow \mathbb{Z}$ では $\mathbb{N} \times \mathbb{N}$ に「差が等しい」という
+            同値関係 $\simplus$ を導入したが、</p>
+          <p>
+            $\mathbb{Z} \rightarrow \mathbb{Q}$ では $\mathbb{Z} \times \mathbb{Z}^\ast$ に「比が等しい」という
+            同値関係 $\newcommand\simcdot{\stackrel{\cdot}{\sim}}\simcdot$ を導入する。</p>
+          <p>ここで、$\mathbb{Z}^\ast$ は $\mathbb{Z}$ から $0$ を除いた集合。</p>
+        </section>
+        <section>
+          <h2>同値関係 $\simcdot$</h2>
+          <p>$(p, q), (r, s) \in \mathbb{Z} \times \mathbb{Z}^\ast$ に
+            次のような関係 $\simcdot$ を導入する。
+          </p>
+          \begin{align}
+          (p, q) \simcdot (r, s) &\iff p s = q r\\
+          \end{align}
+          <p><span class="irregular">循環論法で反則だが、</span>分数を使って書けば</p>
+          \begin{align}
+          (p, q) \simcdot (r, s) &\iff \dfrac{p}{q} = \dfrac{r}{s}
+          \end{align}
+          <p>であり、すなわち $\simcdot$ は「約分」のような操作である。</p>
+          <p>$\simcdot$ が同値関係になることを確かめるのは容易である（から省略する）。</p>
+        </section>
+        <section>
+          <section>
+            <h2>商集合 $\mathbb{Z} \times \mathbb{Z}^\ast / \simcdot$</h2>
+            <p>同値関係が定義できれば、同値類によって自然に集合が分割され、同値類を元とする集合、すなわち商集合が得られる。</p>
+            <div id="canvQQ" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+            <p>$\simcdot$ の同値類 $[p, q]$ は、原点 $(0, 0)$ と点 $(p, q)$ を通る直線上の整数点全体。</p>
+            <p>傾き $1$ の直線に対して線対称になっており、任意の $[p, q] (= p/q)$ に逆数 $[q, p] (= q/p)$ が存在することが
+              見て取れる。</p>
+          </section>
+          <section>
+            <h2>負数と逆数</h2>
+            <p>$\mathbb{N} \rightarrow \mathbb{Z}$ では、$[k, 0]$ が $+k$, $[0, l]$ が $-l$ に対応し、
+              $[k, l] \mapsto [l, k]$ は符号を逆にする演算に対応した。</p>
+            <p>$\mathbb{Z} \rightarrow \mathbb{Q}$ では、$[q, 1]$ が $q/1$, $[1, p]$ が $1/p$ に対応し、
+              $[q, p] \mapsto [p, q]$ は逆数を取る演算に対応した。</p>
+            <table class="tableCenter">
+              <thead>
+                <tr>
+                  <th>操作</th>
+                  <th>演算</th>
+                  <th>単位元</th>
+                  <th>逆元</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2">$\mathbb{N} \rightarrow \mathbb{Z}$</td>
+                  <td rowspan="2">加法 $+$</td>
+                  <td>$0$</td>
+                  <td>$x \mapsto -x$</td>
+                </tr>
+                <tr>
+                  <td>$[0,0]$</td>
+                  <td>$[k,l] \mapsto [l,k]$</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">$\mathbb{Z} \rightarrow \mathbb{Q}$</td>
+                  <td rowspan="2">乗法 $\cdot$</td>
+                  <td>$1$</td>
+                  <td>$x \mapsto 1/x$</td>
+                </tr>
+                <tr>
+                  <td>$[1,1]$</td>
+                  <td>$[q,p] \mapsto [p,q]$</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>形式的にほとんど同じ操作であることが分かる。</p>
+          </section>
+        </section>
+        <section>
+          <h2>$\mathbb{Z} \times \mathbb{Z}^\ast/\simcdot$ 上の演算</h2>
+          <p>同値類 $[p,q], [r, s]$について</p>
+          \begin{align}
+          [p,q] + [r, s] &:= [ps + qr, qs] \\
+          [p,q] \cdot [r,s] &:= [pr, qs]
+          \end{align}
+          <p>とする。これが well-defined になることは、</p>
+          \begin{align}
+          \dfrac{p}{q} + \dfrac{r}{s} &= \dfrac{ps + qr}{qs} \\
+          \dfrac{p}{q} \cdot \dfrac{r}{s} &= \dfrac{pr}{qs}
+          \end{align}
+          <p>より明らか。（<span class="irregular">循環論法なので反則だが</span>）</p>
+        </section>
+        <section>
+          <h2>$\mathbb{Z} \rightarrow \mathbb{Z} \times \mathbb{Z}^\ast/\simcdot \rightarrow \mathbb{Q}$</h2>
+          <p>このようにして、$\mathbb{Z} \times \mathbb{Z}^\ast/\simcdot$ は有理数 $\mathbb{Q}$ と見なせる。</p>
+          \begin{align}
+          \mathbb{Z} \times \mathbb{Z}^\ast/\simcdot \ \cong \mathbb{Q}
+          \end{align}
+          <p>同型 $\cong$ で結んだが、定義 $:=$ とすることもできる。</p>
+        </section>
+        <section>
+          <h2>実数 $\mathbb{R}$</h2>
+          <p>実数 $\mathbb{R}$ は有理数 $\mathbb{Q}$ に無理数を追加したもの。</p>
+          <table class="tableCenter">
+            <thead>
+              <tr>
+                <th>操作</th>
+                <th>追加されるもの</th>
+                <th>対応する演算</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$\mathbb{N} \rightarrow \mathbb{Z}$</td>
+                <td>負数</td>
+                <td>減算 $-$</td>
+              </tr>
+              <tr>
+                <td>$\mathbb{Z} \rightarrow \mathbb{Q}$</td>
+                <td>逆数</td>
+                <td>除法 $/$</td>
+              </tr>
+              <tr>
+                <td>$\mathbb{Q} \rightarrow \mathbb{R}$</td>
+                <td>無理数</td>
+                <td>?</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>$\mathbb{N}$ で $3 - 5 = ?$ の演算はできないが、$\mathbb{Z}$ ではできる。</p>
+          <p>$\mathbb{Z}$ で $2 / 9 = ?$ の演算はできないが、$\mathbb{Q}$ ではできる。</p>
+          <p>では、$\mathbb{Q}$ ではできないが、$\mathbb{R}$ ではできる演算とは何だろうか。</p>
+          <p class="fragment">$\rightsquigarrow$ 極限 $\lim$</p>
+        </section>
+        <section>
+          <section>
+            <h2>$\sqrt{2}$</h2>
+            <p>例として $\sqrt{2}$ を考える。$\sqrt{2}$ は、その定義を $\mathbb{Q}$ 上で記述することはできる</p>
+            \begin{align}
+            x^2 = 2 \hspace{1em} \text{かつ} \hspace{1em} x \gt 0
+            \end{align}
+            <p>が、$\sqrt{2}$ は有理数にはならない。</p>
+            <p>$\mathbb{Q}$ 上の有限回の操作で $\sqrt{2}$ を構成することはできない。</p>
+          </section>
+          <section>
+            <h2>$\sqrt{2}$ の無理数性</h2>
+            <p>正の整数 $a$ について、$a^2$ の素因数の個数は偶数。</p>
+            <p>正の整数 $b$ について、$2 b^2$ の素因数の個数は奇数。</p>
+            <p>よって</p>
+            \begin{align}
+            a^2 \neq 2 b^2 \iff 2 \neq \dfrac{a^2}{b^2} \iff \sqrt{2} \neq \dfrac{a}{b}
+            \end{align}
+          </section>
+          <section>
+            <h2>代数的数</h2>
+            <p>$\sqrt{2}$ のような、有理数係数の代数方程式の解になる数全体を代数的数 $\overline{\mathbb{Q}}$ と呼ぶ。</p>
+            <p>$\overline{\mathbb{Q}}$ は有理数係数多項式全体を「解が等しい」という同値関係で割れば得られる。</p>
+            <p>$\overline{\mathbb{Q}}$ は可算無限濃度である。</p>
+            <p>$\mathbb{Q}$ を代数的に拡張したものが $\overline{\mathbb{Q}}$ で、
+              $\mathbb{Q}$ を位相的に拡張したものが $\mathbb{R}$。</p>
+            <p>たまたま $\overline{\mathbb{Q}} \subset \mathbb{R}$ になっているが、本来は
+              あまり関係のないもの、と考えた方がよい。（$\mathbb{Q}$ の拡張としては、他に $p$-進数などがある）</p>
+          </section>
+        </section>
+        <section>
+          <h2>漸近</h2>
+          <p>$\mathbb{Q}$ 上でも $\sqrt{2}$ に近付いていくことはできる。</p>
+          <p>例えば連分数展開</p>
+          <div style="overflow:hidden;">
+            <div style="float:left; margin-right: 150px;">
+              \begin{align}
+              x^2 &= s \\
+              x^2 - 1 &= s - 1 \\
+              (x-1)(x+1) &= s - 1 \\
+              x-1 &= \dfrac{s - 1}{x+1} \\
+              x &= 1 + \dfrac{s-1}{1+x}
+              \end{align}
+            </div>
+            <div style="float:left;">
+              \begin{align}
+              x &= 1 + \dfrac{s-1}{2 + \dfrac{s-1}{1+x}} \\
+              x &= 1 + \dfrac{s-1}{2 + \dfrac{s-1}{2 + \dfrac{s-1}{1+x}}}
+              \end{align}
+            </div>
+          </div>
+          <p>$s = 2$とすれば、$\sqrt{2}$ に近付いていく（漸近する）数列が得られる。</p>
+        </section>
+        <section>
+          <h2>無限数列</h2>
+          <p>無限数列によって、$\sqrt{2}$ にいくらでも近付くことができる（任意精度で近似することができる）。</p>
+          <div id="canvSqr2" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <input type="button" value="zoom" onclick="updateCanvSqr2();"/>
+          <input type="button" value="reset" onclick="canvSqr2XBegin = 0.0; sqr2Func();"/>
+          <p>$\rho_0 = 1,\ \rho_{n+1} = 1 + 1/(1 + \rho_n)$ の無限数列。$\sqrt{2}$ に漸近する。</p>
+        </section>
+        <section>
+          <h2>無限数列の集合</h2>
+          <p>各項 $q_n \in \mathbb{Q}$ の無限数列 $\{q_n\}$は、可算無限個の $\mathbb{Q}$ の直積集合の元。</p>
+          \begin{align}
+          \{q_n\} \in \mathbb{Q} \times \mathbb{Q} \times \cdots = \mathbb{Q}^\infty
+          \end{align}
+          <p>数列というと一般項や漸化式を考えたくなるが、ここでの無限数列 $\{q_n\}$ とは
+            無限次元空間 $\mathbb{Q}^\infty$ の $1$ 点であり、各 $q_n$ の間に特別な関係が
+            ある必要はない。</p>
+          <div id="canvQinf" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p>$\mathbb{Q}^{\infty}$ は非可算集合（$\because$ Cantor の対角線論法）。</p>
+        </section>
+        <section>
+          <h2>極限が定義できない数列</h2>
+          <p>素朴に考えて、$\mathbb{Q}^\infty$ 上の元 $\{q_n\}$ のほとんどは、ある定数に近付いていく、というような性質は持っていない。</p>
+            </p>
+            <div id="canvDiver" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+        </section>
+        <section>
+          <section>
+            <h2>Cauchy 列：極限が定義できそうな数列</h2>
+            <p>そこで、極限が定義<span style="font-weight:bold;">できそう</span>な数列として、
+              Cauchy 列という概念を導入する。</p>
+            <div class="box-definition">
+              <p>無限数列 $\{q_n\}$ が</p>
+              \begin{align}
+              \forall \epsilon \gt 0, \exists N \in \mathbb{N}, \forall m, n \in \mathbb{N} \ (m, n \ge N \Rightarrow | q_m - q_n | \lt \epsilon)
+              \end{align}
+              <p>を満たすとき、$\{q_n\}$ は Cauchy 列であるという。</p>
+            </div>
+            <p>「<span style="font-weight:bold;">できそう</span>」の意味は後述。</p>
+          </section>
+          <section>
+            <h2>距離 $|x - y|$</h2>
+            <p>Cauchy 列の定義における $|x - y|$ は、</p>
+            <ul>
+              <li>$x = y \iff |x - y| = 0$</li>
+              <li>$|x - y| = |y - x|$</li>
+              <li>$|x - y| + |y - z| \ge |x - z|$</li>
+            </ul>
+            <p>を満たしていれば何でもよい。</p>
+          </section>
+          <section>
+            <h2>順序</h2>
+            <p>不等号記号 $\lt$ についても、$\mathbb{N}, \mathbb{Z}, \mathbb{Q}$ でそれぞれ定義される。</p>
+            <p>$k, l \in \mathbb{N}$</p>
+            \begin{align}
+            k \lt l &\iff \exists n \in \mathbb{N} (k + n + 1 = l)
+            \end{align}
+            <p>$[a, b], [c, d] \in \mathbb{N}^2/\simplus \ \cong \mathbb{Z}$</p>
+            \begin{align}
+            [a,b] \lt [c,d] &\iff a + d \lt c + b
+            \end{align}
+            <p>$[p, q], [r, s] \in \mathbb{Z} \times \mathbb{Z}^\ast / \simcdot \ \cong \mathbb{Q}$</p>
+            \begin{align}
+            [p, q] \lt [r, s] &\iff p s \lt qr
+            \end{align}
+          </section>
+        </section>
+        <section>
+          <h2>Cauchy 列</h2>
+          <p>要するに、$n, m$ を大きくすれば、振幅（変動）$| q_m - q_n |$ をいくらでもより小さくできる数列のこと。</p>
+          <div id="canvCauchy" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          <p>例えば先述の $\sqrt{2}$ に漸近する数列 $\{\rho_n\}$ は、Cauchy 列になる。</p>
+        </section>
+        <section>
+          <h2>Cauchy 列の集合</h2>
+          <p>後のために、有理数の Cauchy 列全体を $\newcommand{\CauchyQ}{\mathbb{Q}^{\infty}_{\mathrm{C}}}\CauchyQ$ と定義しておく。</p>
+
+          \begin{align}
+          \CauchyQ := \Big\{ \{q_n\}\ \Big|\ q_n \in \mathbb{Q} \ \text{かつ}\ \{q_n\} \text{は Cauchy 列} \Big\}
+          \end{align}
+
+          <p>$\CauchyQ$ は $\mathbb{Q}^\infty$ の部分集合で、非可算集合。</p>
+        </section>
+        <section>
+          <h2>収束列：極限が定義できる数列</h2>
+          <p>Cauchy 列の部分集合として、収束列という概念が定義できる。</p>
+          <div class="box-definition">
+            <p>無限数列 $\{a_n\}$ と、ある数 $A$ が</p>
+            \begin{align}
+            \forall \epsilon \gt 0, \exists N \in \mathbb{N}, \forall n \in \mathbb{N} \ (n \gt N \Rightarrow |a_n - A| \lt \epsilon)
+            \end{align}
+            <p>を満たすとき、$\{a_n\}$ は収束列であるといい、</p>
+            \begin{align}
+            \lim_{n \to \infty} a_n = A
+            \end{align}
+            <p>と書く。</p>
+          </div>
+          <p>いわゆる $\epsilon$ - $N$ 論法。</p>
+          <p>収束列について、その定義に付随する形で、極限 $\displaystyle \lim_{n \to \infty} a_n$ が定義される。</p>
+        </section>
+        <section>
+          <section>
+            <h2>収束列</h2>
+            <p>$\{q_n\}$ の振幅ではなく、ある数 $A$ との距離 $| q_n - A |$ をいくらでも小さくできる数列のこと。</p>
+            <div id="canvConv" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          </section>
+          <section>
+            <h2>収束列 $\Rightarrow$ Cauchy 列</h2>
+            <p>収束列は、常に Cauchy 列になる。</p>
+            <div id="canvConv2Cauchy" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+          </section>
+        </section>
+        <section>
+          <h2>収束列の例</h2>
+          <p>自明な例として、$q_n = q$ つまり定数ならば</p>
+          \begin{align}
+          \lim_{n \to \infty} q_n = q
+          \end{align}
+          <p>等比級数も典型的な収束列</p>
+          \begin{align}
+          \lim_{n \to \infty} \sum_{k=0}^n \left(\dfrac{1}{2}\right)^{k} = 2
+          \end{align}
+        </section>
+        <section>
+          <h2>「漸近」か「収束」か</h2>
+          <p>それでは、先述の $\sqrt{2}$ に「漸近」する数列 $\{\rho_n\}$ は収束列か？</p>
+          <p>$\rightsquigarrow$ 考えている空間に依存する。</p>
+          <p>$\sqrt{2}$ がない $\mathbb{Q}$ 上では、$\{\rho_n\}$ は収束列ではなく、$\displaystyle \lim_{n \to \infty} \rho_n$ も定義できない。</p>
+          <p>負数がない $\mathbb{N}$ 上では、$3 - 5$ が定義できないのと同じ。</p>
+        </section>
+        <section>
+          <h2>Cauchy 列 $\stackrel{{\scriptsize ?}}{\Rightarrow}$ 収束列</h2>
+          <p>「Cauchy 列が収束列になるかどうかは、考えている空間に依存する」ということを
+            示す例の一つが、いわゆる開区間</p>
+          \begin{align}
+          (0, 1) := \{x \mid 0 < x < 1\}
+          \end{align}
+        </section>
+        <section>
+          <section>
+            <h2>Cauchy 列 $\neq$ 収束列の例</h2>
+            <p>$r_n = 1/(n^2+1)$ は $(0, 1)$ 上で Cauchy 列だが、収束列ではない。</p>
+            <div id="canvRn" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+            <input type="button" value="zoom" onclick="updateCanvRn();"/>
+            <input type="button" value="reset" onclick="canvRnXBegin = 0.0; rnFunc();"/>
+            <p>任意の $x \in (0, 1)$ について、任意の $N$ で、$n \gt N$ において $|r_n - x| \ge \epsilon$ となるような
+              $n, \epsilon$ が取れる。</p>
+            <p>収束先である $0$ が区間 $(0, 1)$ に入っていないので、$\{r_n\}$ は $(0, 1)$ 上では収束列ではない。</p>
+          </section>
+          <section>
+            <h2>$\epsilon$ - $N$ 論法の否定</h2>
+            \begin{align}
+            \forall \epsilon \gt 0, \exists N \in \mathbb{N}, \forall n \in \mathbb{N} \ (n \gt N \Rightarrow |a_n - A| \lt \epsilon)
+            \end{align}
+            <p>の否定命題は</p>
+            \begin{align}
+            \exists \epsilon \gt 0, \forall N \in \mathbb{N}, \exists n \in \mathbb{N} \ (n \gt N \land |a_n - A| \ge \epsilon)
+            \end{align}
+            <p>$\because$ 論理式 $P(x), \phi, \psi$ について</p>
+            \begin{align}
+            \lnot (\forall x P(x)) &\iff \exists x(\lnot P(x)) \\
+            \lnot (\exists x P(x)) &\iff \forall x(\lnot P(x)) \\
+            \lnot (\phi \Rightarrow \psi) &\iff \phi \land \lnot \psi
+            \end{align}
+          </section>
+        </section>
+        <section>
+          <h2>$\mathbb{Q}$ 上では $\displaystyle \lim_{n \to \infty} \rho_n$ は定義できない</h2>
+          <div style="display:table; height:300px;">
+            <div style="float:left;">
+              <div id="canvSqr2s" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+              <input type="button" value="zoom" onclick="updateCanvSqr2();"/>
+              <input type="button" value="reset" onclick="canvSqr2XBegin = 0.0; sqr2sFunc();"/>
+            </div>
+            <div style="display:table-cell; vertical-align:middle; padding-left:100px;">
+              <p>オレンジの線は $1.414$</p>
+            </div>
+          </div>
+          <p>収束先は「ぴったり」$\sqrt{2}$ でなければならないが、$\mathbb{Q}$ に $\sqrt{2}$ はないので、
+            $\displaystyle \lim_{n \to \infty} \rho_n$ は定義できない。</p>
+        </section>
+        <section>
+          <section>
+          <h2>超越数</h2>
+          <p>収束先が超越数、例えば円周率 $\pi$ であっても同じ。</p>
+          <div style="display:table; height:300px;">
+            <div style="float:left;">
+              <div id="canvPi" style="width:300px; height:300px; padding-right:auto; margin-right:auto; margin-left:auto;"></div>
+              <input type="button" value="zoom" onclick="updateCanvPi();"/>
+              <input type="button" value="reset" onclick="canvPiXBegin = 0.0; piFunc();"/>
+            </div>
+            <div style="display:table-cell; vertical-align:middle; padding-left:100px;">
+              <p>円周率に漸近する Cauchy 列</p>
+              <p>$p_n = 4 \displaystyle \sum_{k=0}^n \left(\frac{1}{2^{2 k + 1}} + \frac{1}{3^{2 k + 1}} \right) \frac{(-1)^k}{2 k + 1}$</p>
+              <p>オレンジの線は $3.141592$</p></div>
+          </div>
+          <p>$\sqrt{2}$ と同様、$\mathbb{Q}$ の中に円周率 $\pi$ はないので、$p_n$ は $\mathbb{Q}$ 上で収束列ではない。</p>
+          <p>どんな $x \in \mathbb{Q}$ を取っても、それよりも $\pi$ に近い有理数が存在する。</p>
+          </section>
+          <section>
+            <h2>$p_n$ の導出</h2>
+            <p>$\arctan(1) = \pi/4$ を Taylor 展開するのが最も単純（Mādhava-Leibniz 公式）だが、収束が遅く図示に向かない。</p>
+            <p>$\arctan$ の加法定理</p>
+            \begin{align}
+            \arctan A + \arctan B &= \arctan \dfrac{A + B}{1 - AB}
+            \end{align}
+            <p>で、$B = (1 - A)/(1 + A)$ とおくと</p>
+            \begin{align}
+            \arctan A + \arctan \dfrac{1 - A}{1 + A} &= \arctan{1} = \dfrac{\pi}{4}
+            \end{align}
+            <p>となる。$A = 1/2$ にしたものが Euler 公式で、それを Taylor 展開したのが $p_n$.</p>
+            <p>$A = 120/119$ が Machin 公式だが、これは逆に収束が早過ぎて図示に向かない。</p>
+          </section>
+        </section>
+        <section>
+          <h2>$\mathbb{Q} \rightarrow \mathbb{R}$ での同値関係</h2>
+          <p>$\mathbb{Z} \rightarrow \mathbb{Q}$ では、除算を導入するために
+            $\mathbb{Z} \times \mathbb{Z}^\ast$ に「比が等しい」という同値関係 $\simcdot$ を導入した。</p>
+          <p>$\mathbb{Q} \rightarrow \mathbb{R}$ では、極限を導入するために
+            $\CauchyQ$ に「収束先が等しい」という同値関係 $\newcommand\simc{\stackrel{\rm{c}}{\sim}}\simc$ を導入する。</p>
+        </section>
+        <section>
+          <h2>同値関係 $\simc$</h2>
+          <p>$\CauchyQ$ に同値関係 $\simc$ を次のように定義する。</p>
+          \begin{align}
+          \{q_n\} \simc \{p_n\} \iff
+          \forall \epsilon \gt 0, \exists N , \forall n, m ( n, m \gt N \Rightarrow |q_n - p_m | \lt \epsilon)
+          \end{align}
+        </section>
+        <section>
+          <h2>Cauchy 列の同値関係</h2>
+          <div style="height:310px;">
+            <div id="canvSimc" style="width:300px; height:300px; padding-right:30px; margin-right:auto; margin-left:auto; float: left;"></div>
+            <p>$\{q_n\} \simc \{p_n\}$ とは、$n, m$ を十分大きく取れば、
+              $2$ つの数列の「隙間」$|q_n - p_m|$ をいくらでも小さくできる、ということ。</p>
+            <p>つまり、$\{q_n\}$ と $\{p_n\}$ は同じ値に漸近する。</p>
+          </div>
+          <p>$\{q_n\},\ \{p_n\}$ が<span class="irregular">収束するとは限らないので、反則だが、</span>$\lim$ を使えば</p>
+          \begin{align}
+          \{q_n\} \simc \{p_n\} \iff \lim_{n \to \infty} q_n = \lim_{n \to \infty} p_n
+          \end{align}
+          <p>である。</p>
+        </section>
+        <section>
+          <h2>Cauchy 列の同値類</h2>
+          <p>$\simc$ での同値類を</p>
+          \begin{align}
+          [x_n] = \Big\{\{q_n\}\ \Big|\ \{q_n\} \simc \{x_n\} \Big\}
+          \end{align}
+          <p>と書き、同値類の間での加算 $+$ と乗算 $\cdot$ を</p>
+          \begin{align}
+          [x_n] + [y_n] &:= [x_n + y_n] \\
+          [x_n] \cdot [y_n] &:= [x_n \cdot y_n]
+          \end{align}
+          <p>で定義すると、これらは well-defined になる。</p>
+        </section>
+        <section>
+          <section>
+            <h2>$[\rho_n]$ と $\sqrt{2}$</h2>
+            <p>$\sqrt{2}$ に漸近する Cauchy 列 $\{\rho_n\}$ の同値類 $[\rho_n]$ について</p>
+            \begin{align}
+            [\rho_n] \cdot [\rho_n] = [\rho_n^2]
+            \end{align}
+            <p>$\displaystyle \lim_{n \to \infty} \rho_n^2 = 2$ より、</p>
+            \begin{align}
+            \{\rho_n^2\} \simc \{2\}
+            \end{align}
+            <p>であり（右辺の$\{2\}$ は任意の項が定数 $2$ の数列）、</p>
+            \begin{align}
+            [\rho_n] \cdot [\rho_n] = [2]
+            \end{align}
+            <p>となる。</p>
+            <p>$[2]$ を $2 \in \mathbb{R}$ に、$[\rho_n]$ を $\sqrt{2} \in \mathbb{R}$ に
+              対応させると上手くいくことが分かる。</p>
+          </section>
+          <section>
+            <h2>$\displaystyle \lim_{n \to \infty} \rho_n^2 = 2$ の証明</h2>
+            <p>$\rho_0 = 1,\ \rho_{n+1} = 1 + 1/(1 + \rho_n)$ について</p>
+            \begin{align}
+            \rho_{n+1}^2 - 2 = -\dfrac{\rho_n^2 - 2}{(1 + \rho_n)^2}
+            \end{align}
+            <p>$\rho_n > 1$ より</p>
+            \begin{align}
+            |\rho_{n+1}^2 - 2| < \dfrac{1}{4} |\rho_n^2 - 2|
+            \end{align}
+            <p>等比数列が収束することを既知とすれば、$\displaystyle \lim_{n \to \infty} \rho_n^2 = 2$ が分かる。</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>$\mathbb{Q} \rightarrow \mathbb{R}$</h2>
+            <p>このようにして、Cauchy 列全体を $\simc$ で割った商空間は実数 $\mathbb{R}$ と見なせる。</p>
+            \begin{align}
+            \CauchyQ / \simc \ \cong \mathbb{R}
+            \end{align}
+            <p>同型 $\cong$ で結んだが、定義 $:=$ とすることもできる。</p>
+          </section>
+          <section>
+            <h2>$0.999\cdots = 1$</h2>
+            <p>有理数 Cauchy 列の空間 $\CauchyQ$ では、</p>
+            \begin{align}
+            \{0.\dot{9}\} &= \{0.9, 0.99, 0.999, \ldots\}\\
+            \{1\} &= \{1, 1, 1, \ldots\}
+            \end{align}
+            <p>は異なる。</p>
+            <p>しかし、実数 $\mathbb{R}$ では、</p>
+            \begin{align}
+            \{0.\dot{9}\} \simc \{1\}
+            \end{align}
+            <p>という同値関係でこれらを区別しない（そのように $\mathbb{R}$ を作った）ので、$0.999 \cdots = 1$ になる。</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>$\mathbb{N} \rightarrow \mathbb{R}$ のまとめ</h2>
+            <p>まとめると、次にようになる。</p>
+            <table class="tableCenter" style="margin-top:50px; margin-bottom:50px;">
+              <thead>
+                <tr>
+                  <th>操作</th>
+                  <th>追加されるもの</th>
+                  <th>対応する演算</th>
+                  <th>演算の定義域</th>
+                  <th>同値関係</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>$\mathbb{N} \rightarrow \mathbb{Z}$</td>
+                  <td>負数</td>
+                  <td>減法 $-$</td>
+                  <td>$\mathbb{N}^2$</td>
+                  <td style="text-align: left;">$\simplus$：差が等しい</td>
+                </tr>
+                <tr>
+                  <td>$\mathbb{Z} \rightarrow \mathbb{Q}$</td>
+                  <td>逆数</td>
+                  <td>除法 $/$</td>
+                  <td>$\mathbb{Z} \times \mathbb{Z}^\ast$</td>
+                  <td style="text-align: left;">$\simcdot$：比が等しい</td>
+                </tr>
+                <tr>
+                  <td>$\mathbb{Q} \rightarrow \mathbb{R}$</td>
+                  <td>無理数</td>
+                  <td>極限 $\lim$</td>
+                  <td>$\CauchyQ$</td>
+                  <td style="text-align: left;">$\simc$：収束先が等しい</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>直積で空間を拡張 $\rightsquigarrow$ 同値関係で割る $\rightsquigarrow$
+              新しい構造（演算）を持つ空間ができる</p>
+          </section>
+          <section>
+            <h2>実数の Cauchy 列</h2>
+            <p>実数 $\mathbb{R}$ から、その Cauchy 列 $\newcommand{\CauchyR}{\mathbb{R}^{\infty}_{\mathrm{C}}}\{x_n\} \in \CauchyR$ も構成できる。</p>
+            <p>任意の実数 Cauchy 列は収束列になる。</p>
+            <p>この性質を完備性と呼ぶ。</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>位相空間</h2>
+            <p>実数 $\mathbb{R}$ はとりあえず定義できた。</p>
+            <p>「$\mathbb{R}$ と局所的に同相な<strong>位相空間</strong>が多様体」だった。</p>
+            <p>位相空間とは、位相構造を持つ空間のこと。</p>
+            <p>位相構造とは、素朴に言えば、「点と点の間のつながり方の法則」のこと<a href="#/refs">$\newcommand{\Mori}{[1]}\Mori$</a>。</p>
+          </section>
+          <section>
+            <h2>Topology という語</h2>
+            <p>topology という語は Listing (1848) によって作られたが、当時はまだ
+              analysis situs と呼ばれることが多かった（topos と situs はそれぞれギリシア語、ラテン語で「位置」の意味）。</p>
+            <p>現代的な意味で topology (analysis situs) を最初に定式化し（ようと試み）たのは
+              Riemann (1857) と Poincaré (1892).</p>
+            <p>topology あるいは topological という語が広く使われるようになったのは、
+              Haussdorff (1914) 以降（詳細は <a href="#/refs">$\newcommand{\EKU}{[4]}\EKU$</a> とそのリンク先を参照）。</p>
+          </section>
+        </section>
+        <section>
+          <h2>つながり方</h2>
+          <div id="canvSegms" style="width:600px; height:200px; margin-right:auto; margin-left:auto;"></div>
+          <p>$2$ つの集合 $A$ と $B$ について、$A$ はつながっており、$B$ はつながっていない。</p>
+          <p>これを数学的に厳密に言おうとすると、実は簡単ではない。</p>
+        </section>
+        <section>
+          <h2>連結 $=$ 非連結ではない</h2>
+          <p>「つながっている」（連結）を定式化するより、「つながっていない」（非連結）を定式化するほうが易しい。</p>
+          <p>集合 $X$ が「つながっていない」とは、$X$ の部分集合 $X_1$ と $X_2$ で、</p>
+          <ol>
+            <li>$X_1 \cap X_2 = \emptyset$</li>
+            <li>$X_1 \cup X_2 = X$</li>
+            <li>$X_1$ と $X_2$ はともに開集合</li>
+          </ol>
+          <p>を満たすものが存在すること。</p>
+        </section>
+        <section>
+          <h2>開集合の意味</h2>
+          <p>非連結の定義になぜいきなり「開集合」が出てくるのか。</p>
+          <p>それは（非）連結の概念と収束の概念が隣接しているため。</p>
+          <p>開集合 $(0, 1)$ 上の数列は $0$ に漸近できるが、$0$ に収束することはできなかった。</p>
+          <p>この性質を利用して、$(0, 1)$ と $0$ は「つながっていない」と考える。</p>
+          <p>つまり、$(0, 1)$ 上の数列が収束できる点は $(0, 1)$ とつながっており、収束できない点はつながっていない。</p>
+        </section>
+        <section>
+          <h2>連結と非連結</h2>
+          <div id="canvSegms2" style="width:600px; height:200px; margin-right:auto; margin-left:auto;"></div>
+          <p>$A = (1, 5)$, $B = (1, 3) \cup (4, 5)$ のとき、</p>
+          <p>$B$ は $B_1 = (1, 3)$, $B_2 = (4, 5)$ という $2$ つの開集合に分けられるが、</p>
+          <p>$A$ は、例えば $A_1 = (1, 3)$, $A_2 = (3, 5)$ と分けると点 $\{3\}$ が $A_1 \cup A_2$ に入らず、$A_1 \cup A_2 \neq A$ になってしまう。</p>
+          <p>よって $A$ は連結、$B$ は非連結になる。</p>
+        </section>
+        <section>
+          <h2>開集合と閉集合</h2>
+          <div id="canvSegms3" style="width:600px; height:200px; margin-right:auto; margin-left:auto;"></div>
+          <p>しかしよく考えるとおかしい。</p>
+          <p>$B = [1, 3] \cup [4, 5]$ として、閉集合の和集合にするとどうなるのか？</p>
+          <p>この $B$ を無理やり $B_1 = (1, 3)$, $B_2 = (4, 5)$ などと $2$ つの開集合に分けると、$B_1 \cup B_2 \neq B$ になってしまう。</p>
+          <p>しかし $B_1 = [1, 3]$, $B_2 = [4, 5]$ では $B_1$, $B_2$ は閉集合になってしまう。</p>
+        </section>
+        <section>
+          <h2>開集合の定義</h2>
+          <p>実は $B = [1, 3] \cup [4, 5]$ では $B_1 = [1,3]$ と $B_2 = [4, 5]$ は開集合なのである。</p>
+          <p>なぜなら、</p>
+          <p>開集合とは、閉集合の補集合である。</p>
+          <p>$B$ を全体集合とするとき、$B_1$ は $B_2$ の補集合である。</p>
+          <p>$B_2 = [4, 5]$ は閉集合である。</p>
+          <p>よって、$B_1$ は開集合である。</p>
+          <p>同様にして、$B_2$ も開集合である。[QED]</p>
+        </section>
+        <section>
+          <h2>開集合かつ閉集合</h2>
+          <p>つまり、$B_1$ と $B_2$ は閉集合<strong>かつ</strong>開集合なのである。</p>
+          <p>このように考えれば、先述の非連結の定義により、$B$ は非連結であると言える。</p>
+          <p>しかし、$B_1 = [1, 3]$ が開集合と言われてもピンと来ない。</p>
+          <p>そもそも、「つながっていない」という概念を「開集合は境界を含まない」という概念から
+            導いたが、「境界を含まない」とは「つながっていない」ということであり、循環論法なのではないか？</p>
+        </section>
+        <section>
+          <section>
+            <h2>位相構造とは</h2>
+            <p>このような考察を経て、最終的に、近現代の数学では</p>
+            <p style="text-align: center;">位相構造とは「どの部分集合が開集合か」のルールのこと</p>
+            <p>とすることになった。</p>
+            <p>ここに至って、「開集合」とは、もはや「境界を含まない集合」ではなく、ただのラベルである。</p>
+            <p>集合 $X$ のどの部分集合 $A \subset X$ に「開集合」のラベルを付けるか？ によって
+              集合 $X$ の「位相構造」を決めるのである。</p>
+            <p>「開集合」のラベルがつけられた $X$ の部分集合のリスト（集合族）を $\mathcal{O}$ と書き、
+              組 $(X, \mathcal{O})$ を 位相空間と呼ぶ。</p>
+          </section>
+          <section>
+            <h2>開集合族の条件</h2>
+            <p>開集合のラベル付けは完全に任意というわけではなく、次の条件が課される。</p>
+            <p>$X$ の開集合族 $\mathcal{O}$ は</p>
+            <ol>
+              <li>空集合 $\emptyset$ と全体集合 $X$ を含む：$\emptyset, X \in \mathcal{O}$</li>
+              <li>$\mathcal{O}$ の $n$ 個（有限個）の元 $\mathcal{O}_1, \ldots, \mathcal{O}_n$ の積集合も
+                $\mathcal{O}$ の元：$\displaystyle \bigcap_{i=1}^n \mathcal{O}_i \in \mathcal{O}$</li>
+              <li>$\mathcal{O}$ の任意個（無限も含む）の元 $\mathcal{O}_\lambda (\lambda \in \Lambda)$ の和集合も
+                $\mathcal{O}$ の元：$\displaystyle \bigcup_{\lambda \in \Lambda} \mathcal{O}_\lambda \in \mathcal{O}$</li>
+            </ol>
+            <p>を満たす。</p>
+          </section>
+        </section>
+        <section>
+          <h2>自明な位相：密着位相</h2>
+          <p>任意の集合 $X$ について、$\mathcal{O} = \{\emptyset, X\}$ という位相構造をとることができる。</p>
+          <p>このとき、$X = X_1 \cup X_2$ となるどんな部分集合 $X_1$, $X_2$ も、開集合ではないので $X$ は連結である。</p>
+          <p>収束の言葉で言えば、$X$ 上の任意の点から任意の点へ収束することができる。</p>
+          <p>近傍の言葉で言えば、$X$ 上の任意の点の任意の近傍に、任意の点が含まれる。</p>
+          <p>つまり全ての点が「べったり」くっついているので、密着位相と呼ばれる。</p>
+        </section>
+        <section>
+          <h2>自明な位相：離散位相</h2>
+          <p>任意の集合 $X$ について、$\mathcal{O} = $ 全ての部分集合（べき集合）という位相構造をとることができる。</p>
+          <p>このとき、$X = X_1 \cup X_2$ となるどんな部分集合 $X_1$, $X_2$ も、開集合なので $X$ は非連結である。</p>
+          <p>収束の言葉で言えば、$X$ 上の任意の点から任意の点へ収束することができない。</p>
+          <p>近傍の言葉で言えば、$X$ 上の任意の点でその点しか含まないような近傍が取れる。</p>
+          <p>つまり全ての点が「ばらばらに」離れているので、離散位相と呼ばれる。</p>
+        </section>
+        <section>
+          <h2>位相の生成</h2>
+          <p>集合 $X$ の全ての部分集合について開集合かどうかを決めるのは大変なので、
+            通常は、順序や距離という構造から開集合族 $\mathcal{O}$ を生成する。</p>
+          <p>例えば、$X$ 上に距離 $d(\bullet, \bullet)$ を定義すると、点 $x \in X$ の近傍 $U_{x,\epsilon}$</p>
+          \begin{align}
+          U_{x,\epsilon} = \{y \in X \mid d(x, y) \lt \epsilon\}
+          \end{align}
+          <p>が定義でき、$U_{x,\epsilon}$ 内の点と $x$ は「つながっている」とすることで
+            開集合族 $\mathcal{O}$ が生成できる。</p>
+        </section>
+        <section>
+          <h2>同相</h2>
+          <p>位相空間はとりあえず定義できた（ことにしよう）。</p>
+          <p>「$\mathbb{R}$ と局所的に<strong>同相な</strong>位相空間が多様体」だった。</p>
+          <p>あとは「局所的に同相」の意味が分かれば、多様体が定義できる。</p>
+          <p>同相とは、「同じ位相」という意味である。</p>
+        </section>
+        <section>
+          <h2>位相を保つ写像</h2>
+          <div class="box-definition">
+          <p>$2$ つの位相空間 $(X, \mathcal{O}_X)$ と $(Y, \mathcal{O}_Y)$ が同相であるとは、
+            $X$ と $Y$ の間の写像 $f: X \rightarrow Y$ の中で、</p>
+          <ol>
+            <li>$f$ は全単射。</li>
+            <li>$X, Y$ の任意の開集合 $A_X \in \mathcal{O}_X, A_Y \in \mathcal{O}_Y$ について、
+              <div style="margin-top:20px; margin-bottom:20px;">
+                \begin{align}
+                f(A_X) \in \mathcal{O}_Y,\hspace{2em} f^{-1}(A_Y) \in \mathcal{O}_X
+                \end{align}
+              </div>
+              つまり $f$ は開集合を開集合に対応させる。</li>
+          </ol>
+          <p>となる $f$ が存在すること。このとき $f$ を同相写像と呼ぶ。</p>
+          </div>
+          <p>「開集合のラベル」が「位相構造」だったので、それが $1$ 対 $1$ に
+            保持されるなら、「同じ位相」であると言える。</p>
+        </section>
+        <section>
+          <h2>連続写像</h2>
+          <p>同相写像は連続写像と関連する。</p>
+          <p>位相の言葉では、</p>
+          <div class="box-definition">
+            <p>写像 $g: X \rightarrow Y$ が連続写像であるとは、逆写像
+              $g^{-1}: Y \rightarrow X$ が $Y$ の開集合 $A_Y \in \mathcal{O}_Y$ について
+              \begin{align}
+              g^{-1}(A_Y) \in \mathcal{O}_X
+              \end{align}
+              つまり $g^{-1}$ が開集合を開集合に写すことである。</p>
+          </div>
+        </section>
+        <section>
+          <h2>連続写像の例</h2>
+          <div id="canvCont" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+          <p>逆像 $g^{-1}$ が開集合を開集合に写している。</p>
+        </section>
+        <section>
+          <section>
+            <h2>非連続写像の例</h2>
+            <p>写像 $g: \mathbb{R} \rightarrow \mathbb{R} , g(x) = 1/x\ (0 \lt x),\ g(x) = 0\ (x \le 0)$</p>
+            <div id="canvCont1" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+            <p>$y \in (-1, 1)$ について $g$ の逆像は $g^{-1}(-1 \lt y \lt 1) = (-1, 0] \cup (1, \infty)$ となり、
+              開集合を非開集合に写すので、$g$ は連続写像ではない。</p>
+            <p>（このように、開集合による連続写像の定義は、どこが開集合なのかを逐一考えることになり、大変なので
+              通常は「$\lim x_n = x$ $\Rightarrow$ $\lim g(x_n) = g(x)$」を使う）</p>
+          </section>
+          <section>
+            <h2>逆像の意味</h2>
+            <p>なぜ $g$ ではなく逆像 $g^{-1}$ なのかというと、例えば $g(x) = x^2$ を考えると</p>
+            <div id="canvCont2" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+            <p>$g(\mathbb{R}) = \{y \in \mathbb{R} | 0 \le y\}$ は（$\mathbb{R}$ 上で）開集合ではない。</p>
+            <p>通常 $g(x) = x^2$ は連続写像なので、「$g$ が開集合を開集合に写すこと」を連続写像の定義にするわけにはいかない。</p>
+          </section>
+        </section>
+        <section>
+          <h2>同相写像 $\iff$ $f$ も $f^{-1}$ も連続</h2>
+          <p>連続写像という言葉を使うと、写像 $f: (X, \mathcal{O}_X) \rightarrow (Y, \mathcal{O}_Y)$ が
+            同相写像であることは、</p>
+          <ol>
+            <li>$f$ は全単射。</li>
+            <li>$f$ も $f^{-1}$ も連続写像</li>
+          </ol>
+          <p>と同値。</p>
+          <p>とりあえず、連続関数で「滑らかに」つながるなら同相だと思っておけばよい。</p>
+          <hr>
+          <p>なお、言うまでもないが、同相という関係は同値関係になる。</p>
+          <p>同相の同値類を研究するのが位相空間論（いわゆるジェネトポ）である。</p>
+        </section>
+        <section>
+          <h2>局所的に同相</h2>
+          <p>「$\mathbb{R}$ と<strong>局所的に</strong>同相な位相空間が多様体」だった。</p>
+          <div class="box-definition">
+            <p>位相空間 $X$ と $\mathbb{R}$ が局所的に同相であるとは、</p>
+            <p>$X$ の任意の点 $x$ について、$x$ を含む開集合 $U$ が存在し、
+              $U$ と $\mathbb{R}$ のある開集合 $V$ が同相であること
+            </p>
+          <p>である。</p>
+          </div>
+          <p>これで、やっと多様体の定義が全て理解できた（はず）。</p>
+        </section>
+        <section>
+          <h2>多様体の例</h2>
+          <p>$R^n$ は $n$ 次元多様体である（自明）。</p>
+          <p>$S^{1} = \{(x, y) | x^2 + y^2 = 1\}$ は $1$ 次元多様体である。</p>
+          <div id="canvS1" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+        </section>
+        <section>
+          <h2>多様体ではない例</h2>
+          <p>$\{(x, y) | x y = 0\}$ は $(0, 0)$ 近傍で $\mathbb{R}^n$ と局所同相でないので、多様体ではない。</p>
+          <div id="canvXY" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+          <p>原点近傍の「十字」について、原点を除去すると $4$ つの連結領域になる。一方、
+            $\mathbb{R}$ は $1$ 点を除去すると $2$ つの連結領域になる。
+            $\mathbb{R}^n (n > 1)$ は $1$ 点を除去しても連結のまま（$1$ つの連結領域）である。
+            したがって、「十字」と $\mathbb{R}^{n}$ は局所同相にはならない。</p>
+        </section>
+        <section>
+          <h2>微分幾何</h2>
+          <p>多様体の上の微分可能な関数について調べるツールが、微分幾何。</p>
+          <p>多様体の上の関数を通して、多様体の構造を調べるツールでもある。</p>
+        </section>
+        <section>
+          <h2>今回の対象</h2>
+          <p>微分幾何には基礎的な概念がいくつかあるが、今回はその中で</p>
+          <ul>
+            <li>接ベクトル</li>
+            <li>テンソル</li>
+          </ul>
+          <p>について紹介する。</p>
+        </section>
+        <section>
+          <h2>座標</h2>
+          <p>多様体とは、局所的に $\mathbb{R}^n$ を「貼り付ける」ことができる空間だった。</p>
+          <p>すなわち、多様体上の任意の点 $p$ の近傍 $U_p$ で写像 $\phi_x$ が構成できる。</p>
+          \begin{align}
+          &\phi_x: U_p \rightarrow V \in \mathbb{R} \\
+          &\phi_x(p) = \left(\begin{array}{c}x^1(p) \\ x^2(p) \\ \vdots \\ x^n(p)\end{array}\right)
+          \end{align}
+          <p>この $\{x^1,\ x^2,\ldots, x^n\}$ の組を（局所）座標系と呼ぶ。</p>
+          <p>Cartesian 座標以外では、円周上での極座標 $\theta$、球面上での極座標 $\phi,\ \theta$ などを想像すればよい。</p>
+          <p>この座標系は、観測者が勝手に（恣意的に）選ぶことができる。</p>
+        </section>
+        <section>
+          <h2>座標の恣意性</h2>
+          <div id="canvVecScale" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+          <p>ある座標系で $v = (3, 4)$ と表示されるベクトルは、</p>
+        </section>
+        <section>
+          <h2>座標の恣意性</h2>
+          <div id="canvVecScale1" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+          <p>ある座標系で $v = (3, 4)$ と表示されるベクトルは、</p>
+          <p>別の座標系では $v = (6, 8)$ となったりする。</p>
+        </section>
+        <section>
+          <h2>座標の恣意性</h2>
+          <div id="canvVec" style="width:600px; height:300px; margin-right:auto; margin-left:auto;"></div>
+          <p>ある座標系で $v = (x, y)$ と表示されるベクトルは、</p>
+        </section>
+        <section>
+          <h2>座標の恣意性</h2>
+          <div id="canvVec1" style="width:600px; height:300px; margin-right:auto; margin-left:auto;"></div>
+          <p>ある座標系で $v = (x, y)$ と表示されるベクトルは、</p>
+          <p>別の座標系では $v = (x \cos \theta - y \sin \theta, x \sin \theta + y \cos \theta)$ となったりする。</p>
+        </section>
+        <section>
+          <h2>座標に依存する量は意味がない</h2>
+          <p>このように、ベクトルの「成分」は座標に依存する情報である。</p>
+          <p>座標は観測者が勝手に選んだものなので、「成分」には本質的に意味がない。</p>
+          <p>$\rightsquigarrow$ 座標の取り方に依らない量で理論を構成したい。</p>
+        </section>
+        <section>
+          <h2>動点 $c(t)$</h2>
+          <p>$1$ 次元多様体 $M$ を考える。つまり、点 $p \in M$ の近傍は $\mathbb{R}$ と同相。</p>
+          <p>$M$ 上の動点 $c(t)$ が時刻 $t$ に点 $p$ を通過し、時刻 $t + \Delta t$ で $c(t + \Delta t)$ に移動したとする。</p>
+          <div id="canvCt" style="width:600px; height:80px; margin-right:auto; margin-left:auto;"></div>
+          <p>座標を取らなければ、$c(t)$ について調べることはできない。</p>
+          <div id="canvCt5" style="width:600px; height:80px; margin-right:auto; margin-left:auto;"></div>
+          <p>なぜなら、$p$ の近傍はただの集合なので、基本的に四則演算などは定義されていない。
+            座標で $\mathbb{R}$ に写すことで、解析できるようになる。</p>
+        </section>
+        <section>
+          <h2>座標（単位）を統一する</h2>
+          <p>座標とはすなわち長さの単位（スケール）であり、単位を統一することで異なる速度を比べることができる。</p>
+          <div id="canvCt3cm" style="width:600px; height:80px; margin-right:auto; margin-left:auto;"></div>
+          <div id="canvCt5cm" style="width:600px; height:80px; margin-right:auto; margin-left:auto;"></div>
+          <p>人間界や自然界には、赤道の円周や光速といった「自然な」長さの単位があり、それを使うという「約束」をしておけばよいが、
+            数学にはそんなものはない。</p>
+          <div id="canvCt5cm_mm" style="width:600px; height:80px; margin-right:auto; margin-left:auto;"></div>
+          <div id="canvCt5cm_sun" style="width:600px; height:80px; margin-right:auto; margin-left:auto;"></div>
+          <p>座標の取り方で、$5$(cm) は $50$(mm) にも $33/20$(寸) にもなる。</p>
+        </section>
+        <section>
+          <h2>またしても同値関係</h2>
+          <p>動点 $c$ の速度 $5$(cm/s)、$50$(mm/s)、$33/20$(寸/s) $\cdots$ を「同一視」して扱うことはできないか？</p>
+          <p>$\rightsquigarrow$ 同値関係で結んでしまえばよい。</p>
+          \begin{align}
+          5 (\mathrm{cm/s}) \sim 50 (\mathrm{mm/s}) \sim 33/20 (\text{寸/s}) \sim 1.9685 (\mathrm{inch/s}) \sim \cdots
+          \end{align}
+          <p>この同値関係 $\sim$ の同値類を使えばよい。</p>
+          <p>……しかし、それは一体どのような数学的実体＜オブジェクト＞なのか？</p>
+          <p class="fragment">$\rightsquigarrow$ 微分作用素</p>
+        </section>
+        <section>
+          <h2>多様体上の関数</h2>
+          <div style="overflow:hidden;">
+            <div id="canvMF" style="width:300px; height:300px; margin-right:20px; margin-left:auto; float: left;"></div>
+            <div>
+              <p>$M$ 上に 実数値（例えば温度場）関数 $F(p)$ を考える。</p>
+              <p>長さの単位（つまり座標）を cm にしたとき、</p>
+              \begin{align}
+              \newcommand{\rd}{\mathrm{d}}
+              F(x_{\mathrm{cm}}) = 2 x_{\mathrm{cm}}
+              \end{align}
+              <p>となっているとしよう。</p>
+              <p>微小近傍を考えているので、高次項は無視できる。</p>
+            </div>
+          </div>
+          <p>動点 $c$ が $\Delta t = 1$秒間に $\Delta c = 5$ cm 動くとして、$c$ 上で観測される単位時間あたりの温度上昇は</p>
+          \begin{align}
+          \dfrac{\Delta c_{\mathrm{cm}}}{\Delta t} \dfrac{\rd F(x_{\mathrm{cm}})}{\rd x_{\mathrm{cm}}} = \dfrac{5 \text{cm}}{1 \text{秒}} \cdot 2 \text{℃/cm} = 10 \text{℃/秒}
+          \end{align}
+        </section>
+        <section>
+          <h2>単位を変換する</h2>
+          <div style="overflow:hidden;">
+            <div id="canvMFmm" style="width:300px; height:300px; margin-right:20px; margin-left:auto; float: left;"></div>
+            <div>
+              <p>長さの単位を cm から mm にすると、</p>
+              \begin{align}
+              \newcommand{\rd}{\mathrm{d}}
+              F(x_{\mathrm{cm}}) &= 2 x_{\mathrm{cm}} = 2 \dfrac{x_{\mathrm{mm}}}{10} \\
+              &= \dfrac{1}{5} x_{\mathrm{mm}} = F(x_{\mathrm{mm}})
+              \end{align}
+              <p>となる。</p>
+            </div>
+          </div>
+          <p>動点 $c$ が $\Delta t = 1$ 秒間に $50$ mm 動くので、$c$ 上で観測される時間あたりの温度上昇は</p>
+          \begin{align}
+          \dfrac{\Delta c_{\mathrm{mm}}}{\Delta t} \dfrac{\rd F(x_{\mathrm{mm}})}{\rd x_{\mathrm{mm}}} = \dfrac{50 \text{mm}}{1 \text{秒}} \cdot \dfrac{1}{5} \text{℃/mm} = 10 \text{℃/秒}
+          \end{align}
+        </section>
+        <section>
+          <h2>微分作用素</h2>
+          <p>同じ速度の動点 $c$ に乗った観測者が、$\Delta t$ の間に感じる変化は、長さの単位（座標）に依らない。</p>
+          \begin{align}
+          \dfrac{\Delta c_{\mathrm{cm}}}{\Delta t} \dfrac{\rd F(x_{\mathrm{cm}})}{\rd x_{\mathrm{cm}}} =
+          \dfrac{\Delta c_{\mathrm{mm}}}{\Delta t} \dfrac{\rd F(x_{\mathrm{mm}})}{\rd x_{\mathrm{mm}}}
+          \end{align}
+          <p>さらに、$F(x_{\mathrm{cm}}) = 2 x_{\mathrm{cm}}$ としたが、この関係は任意の関数で成立する。</p>
+          <p>したがって、関数から実数を返す作用素</p>
+          \begin{align}
+          \dot{c} \dfrac{\rd}{\rd x} : \text{関数} \rightarrow \text{実数}
+          \end{align}
+          <p>は座標の取り方に依らない数学的実体である。</p>
+          <p>この作用素を微分幾何では<strong>接ベクトル</strong>と呼ぶ。</p>
+        </section>
+        <section>
+          <h2>接ベクトルはベクトル空間の元</h2>
+          <p>接ベクトルには加法とスカラー倍が定義できる。したがって、
+            接ベクトルは $1$ 次元ベクトル空間の元である。</p>
+          <p>これは、ほとんど自明である。</p>
+          <p>もともと接ベクトルは $\{5$ (cm/s), $50$ (mm/s), $33/20$ (寸/s), $\cdots \}$ という同じ速度を持つ動点たちから
+            「長さの単位」を除いたものだった。</p>
+          <p>それらの加法とスカラー倍とは、例えば</p>
+          \begin{align}
+          5 (\mathrm{cm/s}) + 10 (\mathrm{mm/s}) &= 0.06 (\mathrm{m/s}) \\
+          2 (\mathrm{cm/s})\ \text{の}\ 4\ \text{倍} &= 80 (\mathrm{mm/s})
+          \end{align}
+          <p>というような計算であり、当然、自然に定義できるのである。</p>
+        </section>
+        <section>
+          <section>
+            <h2>$n$ 次元の場合の接ベクトル</h2>
+            <p>$M$ が $n (\gt 1)$ 次元多様体の場合でも、同様に動点 $\newcommand{\bm}{\boldsymbol}\bm{c}(t)$ と $M$ 上の関数を考えて</p>
+            \begin{align}
+            \sum_{i=1}^n \dot{c}_i \dfrac{\partial}{\partial x_i} : M\ \text{上の関数} \rightarrow \text{実数}
+            \end{align}
+            <p>という微分作用素が定義でき、これを接ベクトルと呼ぶ。</p>
+            <p>$1$ 次元との違いは「長さの単位」だけでなく「向き」という自由度もあることだが、式が複雑になるだけで
+              本質は同じである。多次元でも、接ベクトルは座標の取り方に依らない。</p>
+            <p>微分幾何では、この接ベクトルを使って理論を展開する。</p>
+            <p>（例えば、文献 <a href="#/refs">$\newcommand{\Nomizu}{[2]}\Nomizu$</a> では、第$1$章の $4$ 頁目で接ベクトルが定義される）</p>
+          </section>
+          <section>
+            <h2>$2$ 次元多様体上の関数</h2>
+            <p>$2$ 次元多様体 $M$ 上の関数 $F$ を考える。</p>
+            <div id="canvF" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
+            <p>$F$ は $C^1$ 級（$1$ 階微分可能）とする。</p>
+          </section>
+          <section>
+            <h2>方向微分係数</h2>
+            <div id="canvF1" style="width:200px; height:200px; margin-right:auto; margin-left:auto;"></div>
+            <p>$\mathbb{R}^2$ 上の動点 $\bm{c}(t)$ に乗って関数 $F$ を観測すると、その変化率（微分）は</p>
+            \begin{align}
+            \newcommand{\Dcd}{D_{\dot{\bm{c}}}}
+            \Dcd F(\bm{c}(t)) &= \lim_{\Delta t \to 0} \dfrac{F(\bm{c}(t + \Delta t)) - F(\bm{c}(t))}{\Delta t} \\
+            &= \lim_{\Delta t \to 0} \dfrac{F(\bm{c}(t) + \dot{\bm{c}}(t) \Delta t) - F(\bm{x}(t))}{\Delta t}
+            \end{align}
+            <p>と書ける。これを $\dot{\bm{c}}(t) = \rd \bm{c}(t) / \rd t$ での方向微分係数と呼ぶ。</p>
+          </section>
+          <section>
+            <h2>方向微分係数と $\newcommand{\grad}{\mathrm{grad}}\grad$</h2>
+            <p>$\Dcd F(\bm{c}) = \displaystyle \lim_{\Delta t \to 0} \dfrac{F(\bm{c} + \dot{\bm{c}} \Delta t) - F(\bm{c})}{\Delta t}$ は
+              $F$ の全微分</p>
+            \begin{align}
+            F(\bm{c} + \Delta \bm{c}) &= F(\bm{c})
+            + \Delta p^1 \dfrac{\partial F}{\partial c^1}
+            + \Delta p^2 \dfrac{\partial F}{\partial c^2} + O(\Delta \bm{c}^2) \\
+            &= F(\bm{c}) + \Delta \bm{c} \cdot \grad F + O(\Delta \bm{c}^2)
+            \end{align}
+            <p>を使って</p>
+            \begin{align}
+            \Dcd F(\bm{c}) &= \lim_{\Delta t \to 0} \dfrac{F(\bm{c}) +  \dot{\bm{c}} \Delta t \cdot \grad F + O(\Delta t^2) - F(\bm{c})}{\Delta t} \\
+            &= \dot{\bm{c}} \cdot \grad F
+            \end{align}
+            <p>と書ける。</p>
+          </section>
+          <section>
+            <h2>方向微分係数と座標</h2>
+            <p>座標 $\{x^1, x^2\}$ で $\bm{c}(t)$ が</p>
+            \begin{align}
+            \bm{c}(t) = \left( \begin{array}{c} c_x^1(t) \\ c_x^2(t) \end{array} \right)
+            \end{align}
+            <p>と成分表示されるとする。このとき、$\Dcd F(\bm{c})$ は</p>
+            \begin{align}
+            \Dcd F(\bm{c}) &= \dfrac{\rd c_x^1(t)}{\rd t} \dfrac{\partial F}{\partial x^1}
+            + \dfrac{\rd c_x^2(t)}{\rd t} \dfrac{\partial F}{\partial x^2} \\
+            &= \dot{c}_x^i(t)\ \dfrac{\partial F}{\partial x^i}
+            \end{align}
+            <p>と書ける。ここで Einstein の規約（$2$ 度現れる添え字について総和）を使った。</p>
+          </section>
+          <section>
+            <h2>Einstein の既約</h2>
+            <p>$1$ つの項に $2$ 度現れる添え字については、総和を取る。</p>
+            \begin{align}
+            \bm{u} \cdot \bm{v} &= \sum_{i=1}^n u_i v_i = u_i v_i \\
+            (A B)_{ij} &= \sum_{i=1}^n A_{ik} B_{kj} = A_{ik} B_{kj} \\
+            \mathrm{tr}\ A &= \sum_{i=1}^n A_{ii} = A_{ii}
+            \end{align}
+            <p>など。微分幾何、ベクトル解析（特に物理の文脈）ではほとんど常に利用される。</p>
+          </section>
+          <section>
+            <h2>座標変換</h2>
+            <p>$\{x^1, x^2\}$ を別の座標系 $\{y^1, y^2\}$ に変換する。</p>
+            \begin{align}
+            \left( \begin{array}{c} x^1 \\ x^2 \end{array} \right) \mapsto
+            \left( \begin{array}{c} y^1 \\ y^2 \end{array} \right) =
+            \left( \begin{array}{c} y^1(x^1, x^2) \\ y^2(x^1, x^2) \end{array} \right)
+            \end{align}
+            <p>このとき、$c_x^1(t)$ についても</p>
+            \begin{align}
+            c_x^1(t) \mapsto c_y^1(t) = y^1(c_x^1(t), c_x^2(t))
+            \end{align}
+            <p>である。したがって</p>
+            \begin{align}
+            \dot{c}^{1}_y(t) = \dfrac{\rd c_y^1(t)}{\rd t}
+            &= \dfrac{\partial y^1}{\partial x^1} \dfrac{\rd c_x^1(t)}{\rd t}
+            + \dfrac{\partial y^1}{\partial x^2} \dfrac{\rd c_x^2(t)}{\rd t} \\
+            &= \dfrac{\partial y^1}{\partial x^j} \dfrac{\rd c_x^j(t)}{\rd t} = \dfrac{\partial y^1}{\partial x^j}\ \dot{c}_x^j(t)
+            \end{align}
+            <p>を得る。$\dot{c}_y^2(t)$ についても同様。</p>
+          </section>
+          <section>
+            <h2>Jacobian</h2>
+            <p>つまり</p>
+            \begin{align}
+            \left( \begin{array}{c} \dot{c}_y^1 \\ \dot{c}_y^2 \end{array} \right) =
+            \left( \begin{array}{cc} \dfrac{\partial y^1}{\partial x^1} & \dfrac{\partial y^1}{\partial x^2} \\
+            \dfrac{\partial y^2}{\partial x^1} & \dfrac{\partial y^2}{\partial x^2} \end{array} \right)
+            \left( \begin{array}{c} \dot{c}_x^1 \\ \dot{c}_x^2 \end{array} \right)
+            \end{align}
+            <p>Einstein の規約を使えば</p>
+            \begin{align}
+            \dot{c}_y^i = \dfrac{\partial y^i}{\partial x^j}\ \dot{c}_x^j = J_{ij}\ \dot{c}_x^j
+            \end{align}
+            <p>$J_{ij}$ は Jacobian である。座標変換が全単射なら逆行列 $J_{ki}^{-1} J_{ij} = \delta_{kj}$が存在し</p>
+            \begin{align}
+            \dot{c}_x^i &= J_{ij}^{-1} \dot{c}_y^j
+            \end{align}
+          </section>
+          <section>
+            <h2>逆行列</h2>
+            <p>両辺に $J_{ki}^{-1}$ をかけて縮約し、添え字を交換する。</p>
+            \begin{align}
+            \dot{c}_y^i &= J_{ij}\ \dot{c}_x^j \\
+            J_{ij}\ \dot{c}_x^j &=              \dot{c}_y^i \\
+            J_{ki}^{-1}\ J_{ij}\ \dot{c}_x^j &= J_{ki}^{-1}\ \dot{c}_y^i \\
+            \delta_{kj}\         \dot{c}_x^j &= J_{ki}^{-1}\ \dot{c}_y^i \\
+            \dot{c}_x^k &= J_{ki}^{-1}\ \dot{c}_y^i \\
+            \dot{c}_x^i &= J_{ij}^{-1}\ \dot{c}_y^j
+            \end{align}
+          </section>
+          <section>
+            <h2>$\grad F$ の変換</h2>
+            <p>座標変換で関数の表式は変わっても値は変わらないので</p>
+            \begin{align}
+            F(x^1, x^2) &= F(y^1(x^1, x^2), y^2(x^1, x^2))
+            \end{align}
+            <p>であり、通常の連鎖率で</p>
+            \begin{align}
+            \dfrac{\partial F(x^1, x^2)}{\partial x^1}
+            &= \dfrac{\partial y^1}{\partial x^1} \dfrac{\partial F(y^1, y^2)}{\partial y^1}
+            + \dfrac{\partial y^2}{\partial x^1} \dfrac{\partial F(y^1, y^2)}{\partial y^2} \\
+            \dfrac{\partial F}{\partial x^i} &= \dfrac{\partial y^k}{\partial x^i} \dfrac{\partial F}{\partial y^k} = J_{ki} \dfrac{\partial F}{\partial y^k}
+            \end{align}
+          </section>
+          <section>
+            <h2>方向微分係数に戻る</h2>
+            \begin{align}
+            \Dcd F(\bm{c}_x) &= \dot{c}_x^i \dfrac{\partial F}{\partial x^i} \\
+            & \dot{c}_x^i = J_{ij}^{-1}\ \dot{c}_y^j ,\ \dfrac{\partial F}{\partial x^i} = J_{ki} \dfrac{\partial F}{\partial y^k} \text{を代入}\\
+            \Dcd F(\bm{c}_x) &= J_{ij}^{-1}\ \dot{c}_y^j\ J_{ki}\ \dfrac{\partial F}{\partial y^k}
+            = J_{ki} J_{ij}^{-1}\ \dot{c}_y^j \dfrac{\partial F}{\partial y^k} = \delta_{kj}\ \dot{c}_y^j \dfrac{\partial F}{\partial y^k} \\
+            &= \dot{c}_y^j\ \dfrac{\partial F}{\partial y^j} = \Dcd F(\bm{c}_y)
+            \end{align}
+            <p>つまり、方向微分係数 $\Dcd F$ は座標変換で変化しない。</p>
+          </section>
+          <section>
+            <h2>方向微分係数 $=$ 関数の情報</h2>
+            <p>延々と計算したが、$\Dcd F(\bm{p})$ が座標に依らないことはその定義から推察できる。</p>
+            <div id="canvF2" style="width:200px; height:200px; margin-right:auto; margin-left:auto;"></div>
+            <p>$\Dcd F(\bm{p})$ に付随する方向 $\dot{\bm{c}}$ と関数 $F$ の相対関係は、
+              $\bm{c}$ の成分が変わっても、$F$ の表式が変わっても、不変。したがって、$\dot{\bm{c}}$ 方向の
+              微係数である $\Dcd F(\bm{c})$ は座標の取り方に依存しない。</p>
+          </section>
+          <section>
+            <h2>方向微分係数 $\rightarrow$ 方向微分</h2>
+            \begin{align}
+            \Dcd F(\bm{x}) = \dot{c}_x^i \dfrac{\partial F(\bm{x})}{\partial x^i}
+            \end{align}
+            <p>は座標に依らないが、関数 $F$ に依っている。$F$ を選ぶという恣意性も排除したい。</p>
+            <p>$\rightsquigarrow$ $F$ を取ればよい。</p>
+            \begin{align}
+            \Dcd = \dot{c}_x^i \dfrac{\partial}{\partial x^i}
+            \end{align}
+            <p>これを方向微分（作用素）と呼ぶ。$\Dcd$ は $M$ 上の関数全体から $\mathbb{R}$ への写像。</p>
+          </section>
+          <section>
+            <h2>接ベクトル</h2>
+            \begin{align}
+            \Dcd = \dot{c}_x^i \dfrac{\partial}{\partial x^i}
+            \end{align}
+            <p>ここまで来ると、$\dot{\bm{c}}$ が動点 $\bm{c}$ の速度であることを忘れても問題ない。そこで、$\dot{\bm{c}_x}$ を $\bm{X}$ と書くことにする。</p>
+            \begin{align}
+            D_{\bm{X}} = X^i \dfrac{\partial}{\partial x^i}
+            \end{align}
+            <p>これが、接ベクトルである。</p>
+          </section>
+        </section>
+        <section>
+          <h2>同値関係と作用素</h2>
+          <p>なぜ同値類が微分作用素という表現になったのか、考えてみる。</p>
+          <p>同値関係の裏には、対応する作用素が存在する。</p>
+          <p>$\mathbb{N} \times \mathbb{N}$ の $(3, 4)$ と $(2, 3)$ を
+            同一視するのが $\simplus$ だった。</p>
+          \begin{align}
+          (3, 4) \simplus (2, 3) \simplus (1, 2) \simplus \cdots
+          \end{align}
+          <p>これらは、整数 $k$ に次のように作用する作用素と考えることができる。</p>
+          \begin{align}
+          (3, 4) : &k \mapsto k + (3 - 4) = k - 1 \\
+          (2, 3) : &k \mapsto k + (2 - 3) = k - 1
+          \end{align}
+          <p>$(3, 4)$ と $(2, 3)$ という異なる元が、同じ作用素を生成している。</p>
+        </section>
+        <section>
+          <h2>$\simcdot$ の作用素</h2>
+          <p>同様に、$\mathbb{Z} \times \mathbb{Z}^\ast$ の $(2, 3)$ と $(4, 6)$ を
+            同一視するのが $\simcdot$ だった。</p>
+          \begin{align}
+          (2, 3) \simcdot (4, 6) \simcdot (20, 30) \simcdot \cdots
+          \end{align}
+          <p>これらは、有理数 $q$ に次のように作用する作用素と考えることができる。</p>
+          \begin{align}
+          (2, 3) : &q \mapsto q \cdot (2 / 3) = 2 q / 3 \\
+          (4, 6) : &q \mapsto q \cdot (4 / 6) = 2 q / 3
+          \end{align}
+          <p>$(2, 3)$ と $(4, 6)$ という異なる元が、同じ作用素を生成している。</p>
+        </section>
+        <section>
+          <h2>$\simc$ の作用素</h2>
+          <p>同様に、$\sqrt{2}$ に漸近する Cauchy 列 $\{\rho_n\}$ と $\{\rho_n'\}$ を
+            同一視するのが $\simc$ だった。</p>
+          \begin{align}
+          \{\rho_n\} \simc \{\rho_n'\} \simc \cdots
+          \end{align}
+          <p>これらは、実数 $x$ に次のように作用する作用素と考えることができる。</p>
+          \begin{align}
+          \{\rho_n\} : x \mapsto & \{\rho_n - x\}\ \text{が}\ 0\ \text{に漸近するなら True そうでなければ False} \\
+          &= x\ \text{が}\ \sqrt{2}\ \text{なら True そうでなければ False} \\
+          \{\rho_n'\} : x \mapsto &\{\rho_n' - x\}\ \text{が}\ 0\ \text{に漸近するなら True そうでなければ False} \\
+          &= x\ \text{が}\ \sqrt{2}\ \text{なら True そうでなければ False}
+          \end{align}
+          <p>つまり、$x$ が $\sqrt{2}$ かどうかを判定する bool 値作用素（写像）。</p>
+          <p>$\{\rho_n\}$ と $\{\rho_n'\}$ という異なる元が、同じ作用素を生成している。</p>
+        </section>
+        <section>
+          <h2>$\sim$ の作用素</h2>
+          <p><span style="text-decoration: underline;">同様に、</span>$\Delta c_{\mathrm{cm}}/\Delta t$ と $\Delta c_{\mathrm{mm}}/\Delta t$ を同値関係 $\sim$ で</p>
+          \begin{align}
+          \dfrac{\Delta c_{\mathrm{cm}}}{\Delta t} \sim \dfrac{\Delta c_{\mathrm{mm}}}{\Delta t} \sim \cdots
+          \end{align}
+          <p>と同一視した結果、これらから同じ微分作用素</p>
+          \begin{align}
+          \dfrac{\Delta c_{\mathrm{cm}}}{\Delta t} \dfrac{\rd }{\rd x_{\mathrm{cm}}} =
+          \dfrac{\Delta c_{\mathrm{mm}}}{\Delta t} \dfrac{\rd }{\rd x_{\mathrm{mm}}}
+          \end{align}
+          <p>が得られることになる（……のだと思う）。</p>
+          <p>数式での見かけ上、ある $1$ つの座標 $\{x^i\}$ を使うことにはなるが、作用素としては同じもの、
+            という点が接ベクトルという概念の「こころ」だと思う。</p>
+        </section>
+        <section>
+          <h2>長さ</h2>
+          <p>長さ（計量）の概念を導入し、その文脈でテンソルが自然に現れることを見る。</p>
+          <p>接ベクトル $\partial/\partial x^i$ は「長さの単位」と独立になるように定義したのだった。</p>
+          <p>逆に言えば、接ベクトルで何らかの「長さ」について議論をするためには、
+            接ベクトル以外の新しい概念を導入しなければならない。</p>
+          <p>$\rightsquigarrow$ 計量テンソル</p>
+        </section>
+        <section>
+          <h2>実数値線形写像</h2>
+          <p>以下の議論は大部分がベクトル空間の一般論なので、接ベクトル $\partial / \partial x^i$ の
+            代わりに ベクトル $v^i$ という呼称および記号を使う。</p>
+          <p>$1$ 次元ベクトル空間 $V$ の元 $u, v$ に対し、実数値線形写像 $f$ とは</p>
+          \begin{align}
+          f : V &\rightarrow \mathrm{R} \\
+          f(u + v) &= f(u) + f(v) \\
+          f(k v) &= k f(v)
+          \end{align}
+          <p>となる写像のこと。$1$ 次元の場合、$f$ はある係数 $a$ で</p>
+          \begin{align}
+          f(v) = f_a(v) = a v
+          \end{align}
+          <p>という表式になる。</p>
+        </section>
+        <section>
+          <h2>線形写像全体の空間</h2>
+          <p>係数 $a$ を色々と変えたものが、線形写像の集合になる。</p>
+          <p>次のようにすると、線形写像同士の演算が導入できる。</p>
+          <div style="overflow:hidden;">
+            <div style="width:300px; height:100px; margin-left:60px; margin-left:auto; float: left;"></div>
+            <div id="canvFa1" style="width:100px; height:100px; margin-left:60px; margin-right:20px; margin-left:auto; float: left;"></div>
+            <p style="float:left;">$+$</p>
+            <div id="canvFa2" style="width:100px; height:100px; margin-right:20px; margin-left:auto; float: left;"></div>
+            <p style="float:left;">$=$</p>
+            <div id="canvFa3" style="width:100px; height:100px; margin-right:20px; margin-left:auto; float: left;"></div>
+          </div>
+          \begin{align}
+          f_{a=1}(v) + f_{a=2}(v) &= f_{a=3}(v) \\
+          v + 2 v &= 3 v \\
+          f_{1} + f_{2} &= f_{3}
+          \end{align}
+          <p>これにより、$f_a$ たちはベクトル空間の元になる。</p>
+          <p>この $f_a$ が張る空間を、$V$ の<strong>双対空間</strong> $V^\ast$ と呼ぶ。
+            また、$V \leftrightarrow V^\ast$ の対応を強調するために、$V$ の元 $v$ を
+            ベクトル、$V^\ast$ の元 $v^\ast = f_a$ を<strong>コベクトル</strong>と呼ぶことがある。</p>
+        </section>
+        <section>
+          <h2>$2$ 次元の双対空間</h2>
+          <p>同様にして、$2$ 次元ベクトル空間 $V$ の元 $\bm{v} = v^1 \bm{e}_1 + v^2 \bm{e}_2$ を引数に取り、
+            実数値を返す線形写像は、ある係数 $a_1,\ a_2$ で</p>
+          \begin{align}
+          f(\bm{v}) = f_{\bm{a}}(\bm{v}) = a_1 v^1 + a_2 v^2
+          \end{align}
+          <p>という表式になり、コベクトル $f_{\bm{a}}$ たちは双対空間を張る。</p>
+          <p>双対空間 $V^\ast$ の基底を $\bm{e}_1^\ast,\ \bm{e}_1^\ast$ とすれば
+            $f_{\bm{a}} = \bm{v}^\ast = a_1 \bm{e}_1^\ast + a_2 \bm{e}_2^\ast$ と書ける。</p>
+        </section>
+        <section>
+          <h2>$n$ 次元の双対空間</h2>
+          <p>同様にして、$n$ 次元ベクトル空間 $V$ の元 $\bm{v} = \sum_{i=1}^n v^i \bm{e}_i$ を引数に取り、
+            実数値を返す線形写像は、ある係数 $a_i (i = 1, 2,\ldots, n)$ で</p>
+          \begin{align}
+          f(\bm{v}) = f_{\bm{a}}(\bm{v}) = \sum_{i=1}^n a_i v^i
+          \end{align}
+          <p>という表式になり、コベクトル $f_{\bm{a}}$ たちは双対空間を張る。</p>
+          <p>双対空間 $V^\ast$ の基底を $\bm{e}_i^\ast (i = 1, 2, \ldots, n)$ とすれば
+            $f_{\bm{a}} = \bm{v}^\ast = \sum_{i=1}^n a_i \bm{e}_i^\ast$ と書ける。</p>
+        </section>
+        <section>
+          <h2>ベクトルの長さ</h2>
+          <p>双対空間の考え方を踏まえて、ベクトル $\bm{v} \in V$ の「長さ」を導入したい。</p>
+          <p>双対空間 $V^\ast$ の元 $\bm{v}^\ast$ は、$\bm{v}^\ast : \bm{v} \mapsto f_\bm{a}(\bm{v})$ という
+            線形写像なので、$\bm{v} \in V$ に対して、ある $\bm{v}^\ast \in V^\ast$ を対応させた組 $(\bm{v}^\ast, \bm{v})$ を取れば、</p>
+          \begin{align}
+          (\bm{v}^\ast, \bm{v}) = f_{\bm{a}}(\bm{v}) = \sum_{i=1}^n a_i v^i \in \mathbb{R}
+          \end{align}
+          <p>として実数値が決まり、これを $\bm{v}$ の長さにできそうな気がする。</p>
+          <p>つまり、$\bm{v}$ の長さを決めることは、$\bm{v} \mapsto \bm{v}^\ast$ という対応を決めることと同値。</p>
+        </section>
+        <section>
+          <h2>写像 $g$</h2>
+          <p>何の制限もなく、ベクトル $\bm{v}$ からコベクトル $\bm{v}^\ast$ への写像 $g$ を考えるのは大変なので、
+            線形性を仮定する。</p>
+          \begin{align}
+          g : \bm{v} &\mapsto \bm{v}^\ast \\
+          g(\bm{u} + \bm{v}) &= g(\bm{u}) + g(\bm{v}) \\
+          g(k \bm{u}) &= k g(\bm{u})
+          \end{align}
+        </section>
+        <section>
+          <h2>計量テンソル</h2>
+          <p>ベクトルをベクトルに線形に写す写像は、すなわち行列で表示できる。</p>
+          \begin{align}
+          \left( \begin{array}{c} a_1 \\ a_2 \end{array} \right) &=
+          \left( \begin{array}{cc} g_{11} & g_{12} \\ g_{21} & g_{22} \end{array} \right)
+          \left( \begin{array}{c} v^1 \\ v^2 \end{array} \right)
+          \end{align}
+          <p>この $g = \{g_{ij}\}$ が計量テンソルである。</p>
+          <p>$g_{ij}$ によって、$\bm{v}$ の長さの $2$ 乗は</p>
+          \begin{align}
+          |\bm{v}|^2 = (\bm{v}^\ast, \bm{v}) = \sum_{i,j}^n g_{ij} v^i v^j
+          \end{align}
+          <p>と決まる。</p>
+          <p>$2$ 乗になるのは、長さ（ノルム）が内積に付随する量であるため。</p>
+          <p>$g_{ij}$ が正定値対称のとき Riemann 計量と呼ぶ。</p>
+        </section>
+        <section>
+          <h2>テンソル $=$ 写像</h2>
+          <p>テンソルは成分で表示すれば行列と同じように見えるというだけで、
+            本質は $g : \bm{v} \mapsto \bm{v}^\ast$ という写像である。</p>
+          <p>接ベクトルの導出から示唆されるように、成分は座標に依存する情報だが、
+            写像（作用素）は座標に依らない。すなわち、</p>
+          \begin{align}
+          \bm{v}^\ast = g(\bm{v})
+          \end{align}
+          <p>という表式は、座標に依らない。</p>
+        </section>
+        <section>
+          <h2>テンソルの成分と座標変換</h2>
+          <p>写像での定式化 $\bm{v}^\ast = g(\bm{v})$ は座標に依らずスマートだが、実際に色々と計算して値を出すには、
+            成分を使わざるを得ない。</p>
+          <p>成分表示では、$v^i$ は Jacobian $J^i_j$ による座標変換で</p>
+          \begin{align}
+          v^i \mapsto v'^i &= J^i_j v^j \\
+          \end{align}
+          <p>と変換される。これと $\bm{v}^\ast = g(\bm{v})$ との辻褄合わせで、$g$ の成分 $g_{ij}$ には</p>
+          \begin{align}
+          g_{ij} \mapsto g'_{ij} = J^k_i J^l_j g_{kl}
+          \end{align}
+          <p>という変換性が要請される。これをテンソルの定義とすることが稀によくある。</p>
+        </section>
+        <section>
+          <h2>まとめ</h2>
+          <ul>
+            <li>同値関係で実数も接ベクトルも構成できる。</li>
+            <li>接ベクトルは微分作用素である。</li>
+            <li>計量テンソルはベクトルからコベクトルへの線形写像である。</li>
+          </ul>
+        </section>
+        <section id="refs">
+          <h2>参考文献</h2>
+          <ul>
+            <li>$\Mori$ 森毅, "位相のこころ", 筑摩書房 (2006)</li>
+            <li>$\Nomizu$ 野水克己, "現代微分幾何入門", 裳華房 (1981)</li>
+            <li>$\newcommand{\Omori}{[3]}\Omori$ 大森英樹, "一般力学系と場の幾何学", 裳華房 (1991)</li>
+            <li>$\EKU$ <a href="http://jeff560.tripod.com/mathword.html">J. Miller, "Earliest Known Uses of Some of the Words of Mathematics"</a></li>
+            <li>$\newcommand{\Kawahira}{[5]}\Kawahira$ <a href="http://www.math.titech.ac.jp/~kawahira/courses/kiso.html">T. Kawahira, "多様体の基礎のキソ"</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <script src="revealjs/lib/js/head.min.js"></script>
+    <script src="revealjs/js/reveal.js"></script>
+    <!-- for reveal.js -->
+    <script>
+      Reveal.initialize(
+        {controls: true,
+         progress: true,
+         history: true,
+         center: false,
+         transition: 'none',
+         transitionSpeed: 'fast',
+         slideNumber: true,
+         math: {mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+                config: 'TeX-AMS_HTML-full'},
+         dependencies: [{src: 'revealjs/lib/js/classList.js',
+                         condition: function() { return !document.body.classList; }},
+
+                        {src: 'revealjs/plugin/zoom-js/zoom.js', async: true},
+                        {src: 'revealjs/plugin/notes/notes.js', async: true},
+                        {src: 'revealjs/plugin/math/math.js', async: true}]});
+    </script>
+    <script type="text/javascript" src="js/mycanv.js"></script>
+  </body>
+</html>

@@ -79,10 +79,20 @@
           <h2>はじめに</h2>
           <ul>
             <li>微分幾何学の入門書を読むために必要と思われる用語・言葉遣いを紹介する。</li>
-            <li>学部レベル（非数学専攻）の微積・線形代数の諸概念は既知とする。</li>
+            <li>……はずだったが、半分以上の頁が「実数の構成」である。</li>
             <li style="margin-top:60px;">微分幾何より、同値関係の素晴らしさについて紹介するプレゼンに
               なっているかもしれない。</li>
           </ul>
+          <hr style="margin-top: 60px;">
+          <div style="font-size:80%;">
+            <h2>注意</h2>
+            <ul>
+              <li>実数の構成で Dedekind 切断に言及していない、多様体の定義で座標変換を厳密に定式化していない、など
+                色々と不備がある。</li>
+              <li>自分が理解するために「捻り出した」解釈が一部あり（<a href="#/cotangent-sim">接ベクトルと同値関係の対応</a>など）、
+                標準的な解釈とは乖離している可能性がある。</li>
+            </ul>
+          </div>
         </section>
         <section>
           <h2>流れ</h2>
@@ -1295,7 +1305,7 @@
         </section>
         <section>
           <h2>多様体の例</h2>
-          <p>$R^n$ は $n$ 次元多様体である（自明）。</p>
+          <p>$\mathbb{R}^n$ は $n$ 次元多様体である（自明）。</p>
           <p>$S^{1} = \{(x, y) | x^2 + y^2 = 1\}$ は $1$ 次元多様体である。</p>
           <div id="canvS1" style="width:300px; height:300px; margin-right:auto; margin-left:auto;"></div>
         </section>
@@ -1327,7 +1337,7 @@
           <p>多様体とは、局所的に $\mathbb{R}^n$ を「貼り付ける」ことができる空間だった。</p>
           <p>すなわち、多様体上の任意の点 $p$ の近傍 $U_p$ で写像 $\phi_x$ が構成できる。</p>
           \begin{align}
-          &\phi_x: U_p \rightarrow V \in \mathbb{R} \\
+          &\phi_x: U_p \rightarrow V \subset \mathbb{R}^n \\
           &\phi_x(p) = \left(\begin{array}{c}x^1(p) \\ x^2(p) \\ \vdots \\ x^n(p)\end{array}\right)
           \end{align}
           <p>この $\{x^1,\ x^2,\ldots, x^n\}$ の組を（局所）座標系と呼ぶ。</p>
@@ -1688,7 +1698,7 @@
           <p>つまり、$x$ が $\sqrt{2}$ かどうかを判定する bool 値作用素（写像）。</p>
           <p>$\{\rho_n\}$ と $\{\rho_n'\}$ という異なる元が、同じ作用素を生成している。</p>
         </section>
-        <section>
+        <section id="cotangent-sim">
           <h2>$\sim$ の作用素</h2>
           <p><span style="text-decoration: underline;">同様に、</span>$\Delta c_{\mathrm{cm}}/\Delta t$ と $\Delta c_{\mathrm{mm}}/\Delta t$ を同値関係 $\sim$ で</p>
           \begin{align}

@@ -235,42 +235,42 @@
         <section>
           <section>
             <h2>無限大のようなもの</h2>
-            <p>$\omega = S(\omega)$ となる「数」$\omega$ を考える。
-              $\omega$ は無限大 $\infty$ のようなもの。</p>
-            <p>$k \in \mathbb{N}$ と $\omega$ の加法を</p>
+            <p>$\alpha = S(\alpha)$ となる「数」$\alpha$ を考える。
+              $\alpha$ は無限大 $\infty$ のようなもの。</p>
+            <p>$k \in \mathbb{N}$ と $\alpha$ の加法を</p>
             \begin{align}
-            \omega + k &= \omega \\
-            k + \omega &= \omega \\
-            \omega + \omega &= \omega
+            \alpha + k &= \alpha \\
+            k + \alpha &= \alpha \\
+            \alpha + \alpha &= \alpha
             \end{align}
-            <p>と解釈すると、これは $x,y \in \mathbb{N} \cup \{\omega\}$ で</p>
+            <p>と解釈すると、これは $x,y \in \mathbb{N} \cup \{\alpha\}$ で</p>
             \begin{align}
             x + 0 &= x \\
             x + S(y) &= S(x + y)
             \end{align}
             <p>を満たす。
               他の公理についても、矛盾しないことが確かめられる。</p>
-            <p>つまり、Robinson 算術は $\omega$ の存在を否定できない。</p>
+            <p>つまり、Robinson 算術は $\alpha$ の存在を否定できない。</p>
             <p>そのため、命題 $\forall x (S(x) \neq x)$ は Robinson 算術では証明できない。</p>
           </section>
           <section>
-            <h2>$\omega$ の加法の無矛盾性</h2>
+            <h2>$\alpha$ の加法の無矛盾性</h2>
             <p>$x + S(y) = S(x + y)$ を確認する。</p>
             <p>$x, y \in \mathbb{N}$ のときは省略。</p>
-            <p>$x = y = \omega$ のとき</p>
+            <p>$x = y = \alpha$ のとき</p>
             \begin{align}
-            \omega + S(\omega) &= \omega + \omega = \omega, \\
-            S(\omega + \omega) &= S(\omega) = \omega
+            \alpha + S(\alpha) &= \alpha + \alpha = \alpha, \\
+            S(\alpha + \alpha) &= S(\alpha) = \alpha
             \end{align}
-            <p>$x = k \in \mathbb{N}, y = \omega$ のとき</p>
+            <p>$x = k \in \mathbb{N}, y = \alpha$ のとき</p>
             \begin{align}
-            k + S(\omega) &= k + \omega = \omega, \\
-            S(k + \omega) &= S(\omega) = \omega
+            k + S(\alpha) &= k + \alpha = \alpha, \\
+            S(k + \alpha) &= S(\alpha) = \alpha
             \end{align}
-            <p>$x = \omega, y = k \in \mathbb{N}$ のとき</p>
+            <p>$x = \alpha, y = k \in \mathbb{N}$ のとき</p>
             \begin{align}
-            \omega + S(k) &= \omega, \\
-            S(\omega + k) &= S(\omega) = \omega
+            \alpha + S(k) &= \alpha, \\
+            S(\alpha + k) &= S(\alpha) = \alpha
             \end{align}
             <p>したがって、$x + S(y) = S(x + y)$.</p>
           </section>
@@ -278,7 +278,7 @@
         <section>
           <h2>Peano 算術</h2>
           <p>数学的帰納法を認める体系が、Peano 算術。</p>
-          <p>数学的帰納法によって、自然数 $\mathbb{N}$ 以外の $\omega$ のような数が
+          <p>数学的帰納法によって、自然数 $\mathbb{N}$ 以外の $\alpha$ のような数が
             排除される。</p>
           <p>通常の数学では Peano 算術が採用されている。</p>
           <p>（よく「無限大 $\infty$ は数ではない」と言われるが、
@@ -652,7 +652,7 @@
               <tr>
                 <td>$\mathbb{N} \rightarrow \mathbb{Z}$</td>
                 <td>負数</td>
-                <td>減算 $-$</td>
+                <td>減法 $-$</td>
               </tr>
               <tr>
                 <td>$\mathbb{Z} \rightarrow \mathbb{Q}$</td>
@@ -852,7 +852,7 @@
           <p>それでは、先述の $\sqrt{2}$ に「漸近」する数列 $\{\rho_n\}$ は収束列か？</p>
           <p>$\rightsquigarrow$ 考えている空間に依存する。</p>
           <p>$\sqrt{2}$ がない $\mathbb{Q}$ 上では、$\{\rho_n\}$ は収束列ではなく、$\displaystyle \lim_{n \to \infty} \rho_n$ も定義できない。</p>
-          <p>負数がない $\mathbb{N}$ 上では、$3 - 5$ が定義できないのと同じ。</p>
+          <p>$-2$ がない $\mathbb{N}$ 上では、$3 - 5$ が定義できないのと同じ。</p>
         </section>
         <section>
           <h2>Cauchy 列 $\stackrel{{\scriptsize ?}}{\Rightarrow}$ 収束列</h2>
